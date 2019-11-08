@@ -1,8 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Router, Route, Link, hashHistory } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+
+class Header extends React.Component {
+    constructor(props){
+        super(props);
+    }
+    render() {
+        return (<header></header>)
+    }
+}
+
+
+
+
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
