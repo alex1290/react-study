@@ -1,16 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, Link, hashHistory } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Header from './main/Header';
+import routes from './main/routes';
 import './index.css';
-import App from './App';
+// import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-class Header extends React.Component {
-    constructor(props){
-        super(props);
-    }
+
+
+class App extends React.Component {
     render() {
-        return (<header></header>)
+        return (
+            <div>
+                <Header />
+                <div className="container">
+                    {routes.map((route,i)=>{
+                        const {path,exact} = route;
+                        return <Route 
+                        key={i}
+                        exact={exact}
+                        path={path}
+                        render={()=>(<route.component routes={routes} />)}
+                        />
+                    })}
+                </div>
+            </div>
+        )
     }
 }
 
@@ -18,7 +34,13 @@ class Header extends React.Component {
 
 
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+    <BrowserRouter>
+        <Switch>
+            <App />
+        </Switch>
+    </BrowserRouter>,
+    document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
