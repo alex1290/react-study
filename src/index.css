@@ -56,3 +56,15 @@ img{
 .container{
   padding: 40px 25px;
 }
+
+.dataSpace{
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+.dataItem{
+  width: 30.3333%;
+  background-color: #ccc;
+  height: 100px;
+  margin: 0 1.5% 20px;
+}

@@ -1,11 +1,29 @@
 import React from 'react';
 
+class Data extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+            <ul className="dataSpace">
+                {this.props.location.map(
+                    (item, i) => (
+                        <li className="dataItem" key={i}>{item.locationName}</li>
+                    )
+                )}
+            </ul>
+        )
+    }
+}
+
+
 class Weather extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             error: null,
-            item: [],
+            item: null,
             isLoaded: false
         }
     }
@@ -28,7 +46,22 @@ class Weather extends React.Component {
             )
     }
     render() {
-        return <h1>weather API {this.isLoaded}</h1>
+        const { error, item, isLoaded } = this.state;
+        if (error) {
+            return <div>{error}</div>
+        } else if (!isLoaded) {
+            return <div>Loading...</div>
+        } else {
+            let { location } = item.records;
+            return (
+                <div>
+                    <h1>weather API</h1>
+                    <Data location={location} />
+
+                </div>
+
+            )
+        }
     }
 }
 
