@@ -22,9 +22,13 @@ code {
 img{
   vertical-align: middle;
 }
+h1{
+  font-size: 3em;
+  margin-bottom: 20px;
+}
 .header{
   background-color: #282C34;
-  padding: 8px 40px;
+  padding: 0 40px;
   display: flex;
   justify-content: space-between;
 }
@@ -41,30 +45,49 @@ img{
   vertical-align: middle;
 }
 .menu{
-  width: 30%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   font-size: 1.2em;
 }
+.menuItem{
+  margin: 0 10px;
+  padding: 11px 0;
+}
 .menuLink{
   color: white;
+  padding: 10px 0;
+  box-sizing: border-box;
 }
 .menuLink:hover{
   color: #09D3AC;
+  border-bottom: 3px solid #09D3AC;
 }
 .container{
   padding: 40px 25px;
+  text-align: center;
 }
-
+#filterBar{
+  width: 200px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  font-size: 1.2em;
+}
+#filterBar:focus{
+  outline: none;
+}
 .dataSpace{
   display: flex;
   flex-wrap: wrap;
   padding: 10px;
+  
 }
 .dataItem{
   width: 30.3333%;
-  background-color: #ccc;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  padding: 15px 10px;
   height: 100px;
   margin: 0 1.5% 20px;
+  text-align: left;
 }

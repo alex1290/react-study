@@ -1,19 +1,54 @@
 import React from 'react';
 
+class Card extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            ...this.props.item.weatherElement
+        }
+    }
+    render() {
+        let { item } = this.props;
+        console.log(this.props)
+        return (
+            <li className="dataItem">
+                <h3>{item.locationName}</h3>
+                <p></p>
+            </li>
+        )
+    }
+}
+
 class Data extends React.Component {
     constructor(props) {
         super(props);
     }
+    
     render() {
-        return (
-            <ul className="dataSpace">
-                {this.props.location.map(
-                    (item, i) => (
-                        <li className="dataItem" key={i}>{item.locationName}</li>
-                    )
-                )}
-            </ul>
-        )
+        let {filter,location} = this.props;
+        if(filter){
+            return (
+                // location.filter((item)=>(item.locationName===filter));
+                <ul className="dataSpace">
+                    {location.map(
+                        (item, i) => (
+                            <Card key={i} item={item} />
+                        )
+                    )}
+                </ul>
+            )
+        }else{
+            return (
+                <ul className="dataSpace">
+                    {this.props.location.map(
+                        (item, i) => (
+                            <Card key={i} item={item} />
+                        )
+                    )}
+                </ul>
+            )
+        }
+        
     }
 }
 
@@ -24,7 +59,8 @@ class Weather extends React.Component {
         this.state = {
             error: null,
             item: null,
-            isLoaded: false
+            isLoaded: false,
+            filter: null
         }
     }
     componentDidMount() {
@@ -45,6 +81,11 @@ class Weather extends React.Component {
                 }
             )
     }
+    filter(e) {
+        this.setState({
+            filter: e.target.value
+        })
+    }
     render() {
         const { error, item, isLoaded } = this.state;
         if (error) {
@@ -53,11 +94,17 @@ class Weather extends React.Component {
             return <div>Loading...</div>
         } else {
             let { location } = item.records;
+            console.log(location)
             return (
                 <div>
                     <h1>weather API</h1>
-                    <Data location={location} />
-
+                    <select name="filterBar" id="filterBar" defaultValue='' onChange={(e) => this.filter(e)}>
+                        <option value='' disabled>--請選擇--</option>
+                        {location.map((item, i) => (
+                            <option key={i} value={item.locationName}>{item.locationName}</option>
+                        ))}
+                    </select>
+                    <Data location={location} filter={this.state.filter} />
                 </div>
 
             )
