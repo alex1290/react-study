@@ -4,14 +4,24 @@ class Card extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            ...this.props.item.weatherElement
+            data:[...this.props.item.weatherElement]
         }
     }
     render() {
         let { item } = this.props;
-        console.log(this.props)
+        let { time } = this.state.data[0]
+        console.log(this.state)
         return (
             <li className="dataItem">
+                <select name="time" id="time">
+                    {time.map((t,i)=>{
+                        let { startTime, endTime } = t
+                        let date = new Date;
+                        console.log(date)
+                        startTime = startTime.substring(11,16);
+                        return (<option key={i}>{startTime}</option>)
+                    })}
+                </select>
                 <h3>{item.locationName}</h3>
                 <p></p>
             </li>
@@ -27,14 +37,10 @@ class Data extends React.Component {
     render() {
         let {filter,location} = this.props;
         if(filter){
+            let filterRow = location.filter(item=>item.locationName===filter)
             return (
-                // location.filter((item)=>(item.locationName===filter));
                 <ul className="dataSpace">
-                    {location.map(
-                        (item, i) => (
-                            <Card key={i} item={item} />
-                        )
-                    )}
+                    {<Card item={filterRow[0]} />}
                 </ul>
             )
         }else{
@@ -94,12 +100,11 @@ class Weather extends React.Component {
             return <div>Loading...</div>
         } else {
             let { location } = item.records;
-            console.log(location)
             return (
                 <div>
                     <h1>weather API</h1>
                     <select name="filterBar" id="filterBar" defaultValue='' onChange={(e) => this.filter(e)}>
-                        <option value='' disabled>--請選擇--</option>
+                        <option value=''>全部城市</option>
                         {location.map((item, i) => (
                             <option key={i} value={item.locationName}>{item.locationName}</option>
                         ))}
