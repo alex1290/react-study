@@ -4,7 +4,7 @@ class Card extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data:[...this.props.item.weatherElement]
+            data: [...this.props.item.weatherElement]
         }
     }
     render() {
@@ -14,12 +14,20 @@ class Card extends React.Component {
         return (
             <li className="dataItem">
                 <select name="time" id="time">
-                    {time.map((t,i)=>{
+                    {time.map((t, i) => {
                         let { startTime, endTime } = t
-                        let date = new Date;
-                        console.log(date)
-                        startTime = startTime.substring(11,16);
-                        return (<option key={i}>{startTime}</option>)
+                        let date = new Date().getDate();
+                        let dateString = dataDate => {
+                            let day;
+                            if (date == dataDate.substring(8, 10)) {
+                                return "Today " + dataDate.substring(11, 16);
+                            } else {
+                                return "Tomorrow  " + dataDate.substring(11, 16);
+                            }
+                        }
+                        startTime = dateString(startTime);
+                        endTime = dateString(endTime);
+                        return (<option key={i}>{startTime + ' - ' + endTime}</option>)
                     })}
                 </select>
                 <h3>{item.locationName}</h3>
@@ -33,17 +41,17 @@ class Data extends React.Component {
     constructor(props) {
         super(props);
     }
-    
+
     render() {
-        let {filter,location} = this.props;
-        if(filter){
-            let filterRow = location.filter(item=>item.locationName===filter)
+        let { filter, location } = this.props;
+        if (filter) {
+            let filterRow = location.filter(item => item.locationName === filter)
             return (
                 <ul className="dataSpace">
                     {<Card item={filterRow[0]} />}
                 </ul>
             )
-        }else{
+        } else {
             return (
                 <ul className="dataSpace">
                     {this.props.location.map(
@@ -54,7 +62,7 @@ class Data extends React.Component {
                 </ul>
             )
         }
-        
+
     }
 }
 

@@ -8,7 +8,6 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 
 
-
 class App extends React.Component {
     render() {
         return (
