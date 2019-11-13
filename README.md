@@ -5,7 +5,7 @@
 名稱第一個字使用大寫
 
 ### class
-`class App extends React.Component {
+```class App extends React.Component {
     coonstructor(props){
         super(props); //使constuctor接的到props的值
         this.state = {
@@ -20,7 +20,7 @@
             </div>
         )
     }
-}`
+}```
 
 ### stateless function 
 `
