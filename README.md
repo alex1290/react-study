@@ -5,27 +5,29 @@
 名稱第一個字使用大寫
 
 ### class
-```class App extends React.Component {
-    coonstructor(props){
-        super(props); //使constuctor接的到props的值
-        this.state = {
-            "example":"Hello World"
+```
+    class App extends React.Component {
+        coonstructor(props){
+            super(props); //使constuctor接的到props的值
+            this.state = {
+                "example":"Hello World"
+            }
         }
-    }
-    render() {
-        return (
-            <div>
-                <h1>{this.state.example}</h1>
-                <Container />
-            </div>
-        )
-    }
-}```
+        render() {
+            return (
+                <div>
+                    <h1>{this.state.example}</h1>
+                    <Container />
+                </div>
+            )
+        }
+} 
+```
 
 ### stateless function 
-`
+```
     const  StatelessComponent = props => <div>{props.example}</div>;
-`
+```
 
 [差別](https://itnext.io/react-component-class-vs-stateless-component-e3797c7d23ab#:~:targetText=A%20functional(a.k.a.,and%20returns%20a%20react%20element.&targetText=When%20react%20renders%20our%20stateless,function%20and%20pass%20props%20there.)
 
