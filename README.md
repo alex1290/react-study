@@ -22,9 +22,9 @@
 ### class
 ```
     class App extends React.Component {
-        coonstructor(props){
+        coonstructor(props){    //非必要，若有props才需使用constructor
             super(props); //使constuctor接的到props的值
-            this.state = {
+            this.state = {  //存放component的資料
                 "example":"Hello World"
             }
         }
@@ -49,6 +49,14 @@
 
 ###### [兩種Component的差別](https://reurl.cc/GkNAkG)
 
+###### 當props過多時通常會這樣撰寫，以方便閱讀:
+```
+    <div
+        helloWorld="this"
+        is="example"
+        example={sample}
+    >anythiong</div>
+```
 ## Render Element
 渲染出網頁
 ``` 
@@ -58,7 +66,6 @@
         document.getElementById('root')
     );
     //在#root渲染出App組件
-}
 ```
 
 ## 生命週期
