@@ -36,7 +36,7 @@
     const  StatelessComponent = props => <div className="sample">{props.example}</div>;
 ```
 
-[差別](https://reurl.cc/GkNAkG)
+###### [兩種Component的差別](https://reurl.cc/GkNAkG)
 
 ## Render Element
 ``` 
@@ -51,18 +51,20 @@
 
 ## 生命週期
 區分為三種時期,建立、更新、移除，時間依序排列如下
-  1.Mounting
-    componentWillMount() 
-    componentDidMount() 
-  2.Updating
-    componentWillReceiveProps()
-    shouldComponentUpdate()
-    componentWillUpdate()
-    componentDidUpdate()
-  3.Unmoubting
-    componentWillUnmount()
+  1. Mounting
+   - componentWillMount() 
+   - componentDidMount() 
+  2. Updating
+   - componentWillReceiveProps()
+   - shouldComponentUpdate()
+   - componentWillUpdate()
+   - componentDidUpdate()
+  3. Unmoubting
+   - componentWillUnmount()
 
-Ajax 非同步請在 componentDidMount()執行
+*Ajax 非同步請在 componentDidMount()執行*
+
+***
 
 # React 開發使用套件
 
