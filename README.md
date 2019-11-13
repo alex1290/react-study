@@ -1,37 +1,39 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# React 開發使用套件
 
-## Available Scripts
+## [Create React App](https://github.com/facebook/create-react-app)
 
-In the project directory, you can run:
+用來快速建立 React 開發環境
 
-### `npm start`
+### 可使用指令:
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+###### `npm start`
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+在開發環境執行 App .<br />
+在瀏覽器輸入 [http://localhost:3000](http://localhost:3000) 檢視.
 
-### `npm test`
+每當你編輯將會自動重整.<br />
+也可以在 console 檢視語法錯誤.
+
+###### `npm test`
 
 Launches the test runner in the interactive watch mode.<br />
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+###### `npm run build`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+打包app至 `build` 資料夾.<br />
+能夠正確地在 Production Mode 綑綁 React 並優化 build 的性能
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+build 會壓縮檔案大小且檔案名稱經過 hashes 壓縮運算<br />
+app 就可以成功發布了!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+檢視 [deployment](https://facebook.github.io/create-react-app/docs/deployment) 以獲得更多資訊.
 
-### `npm run eject`
+###### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**Note: 這是個單項操作. 一旦你使用 `eject` 便無法回朔!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+假如你對 build tool 和 configuration choices 不滿意, 你可以任何時候使用 `eject` . 這個指令將會從你的專案移除 the single build dependency.
 
 Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
@@ -66,8 +68,19 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-# react-study
 
-# react-study
-### test?
+## semantic-ui-css
+
+## react-lazyload
+
+## react-router
+
+## immutable
+
+## redux
+
+## history
+
+
+
 
