@@ -36,7 +36,7 @@
     const  StatelessComponent = props => <div className="sample">{props.example}</div>;
 ```
 
-[差別](https://itnext.io/react-component-class-vs-stateless-component-e3797c7d23ab#:~:targetText=A%20functional(a.k.a.,and%20returns%20a%20react%20element.&targetText=When%20react%20renders%20our%20stateless,function%20and%20pass%20props%20there.)
+[差別](https://reurl.cc/GkNAkG)
 
 ## Render Element
 ``` 
