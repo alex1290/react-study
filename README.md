@@ -51,16 +51,16 @@
 
 ## 生命週期
 區分為三種時期,建立、更新、移除，時間依序排列如下
-  1. Mounting
-   - componentWillMount() 
-   - componentDidMount() 
-  2. Updating
-   - componentWillReceiveProps()
-   - shouldComponentUpdate()
-   - componentWillUpdate()
-   - componentDidUpdate()
-  3. Unmoubting
-   - componentWillUnmount()
+    1. Mounting
+        * componentWillMount() 
+        * componentDidMount() 
+    2. Updating
+        * componentWillReceiveProps()
+        * shouldComponentUpdate()
+        * componentWillUpdate()
+        * componentDidUpdate()
+    3. Unmoubting
+        * componentWillUnmount()
 
 *Ajax 非同步請在 componentDidMount()執行*
 
