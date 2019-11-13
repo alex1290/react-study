@@ -1,12 +1,20 @@
-# React
-裡面命名通常使用小駝峰，使用JSX撰寫標籤語法，使用變數用 {} 包起來，
+# React 筆記
 
-## 兩種Component
+## 前言
+需要了解:
+1. ES6 
+2. NodeJs 的 NPM 
+小規則:
+1. 物件、屬性命名規則通常使用小駝峰
+2. 使用JSX撰寫標籤語法 
+3. 在 {} 內使用變數
+
+## Component
+必須先 import React 進入檔案:
 ```
     import React from 'react';
 ```
-皆必須有元素 return 出來，returnt 出來的元素必為一個，若有多個元素必須外面包一層
-名稱第一個字使用大寫
+在 React 中有兩種類型的組件，命名規則第一個字母通常為大寫，皆必須有元素 return 出來，return 出來的元素若有多個，外面需要包一層。
 
 ### class
 ```
@@ -39,6 +47,7 @@
 ###### [兩種Component的差別](https://reurl.cc/GkNAkG)
 
 ## Render Element
+渲染出網頁
 ``` 
     import ReactDOM from 'react-dom';
     ReactDOM.render(
@@ -65,32 +74,38 @@
 
 *Ajax 非同步請在 componentDidMount()執行*
 
+
 ***
 
+
 # React 開發使用套件
+以下為常用到的套件，安裝NodeJs後，在終端機輸入以下名稱就能安裝
+`npm install tittleName`
 
-## [Create React App](https://github.com/facebook/create-react-app)
+## 1. [create-react-app](https://github.com/facebook/create-react-app)
 [簡介](https://github.com/alex1290/react-study/blob/master/guide/create-react-app.md) </br >
-用來快速建立 React 開發環境
+用來快速建立 React 開發環境。
 
-## [semantic-ui-react](https://react.semantic-ui.com/)
-類似 bootstrap 提供多種組件以及 layout 以供取用
+## 2. [semantic-ui-react](https://react.semantic-ui.com/)
+類似 bootstrap 提供多種組件以及 layout 以供取用。
 
-## react-router
+## 3. react-router
 [簡介](https://github.com/alex1290/react-study/blob/master/guide/react-router.md) </br >
-方便寫出SPA
+提供路由，方便寫出SPA。
 
-## [redux](https://chentsulin.github.io/redux/)
+## 4. [redux](https://chentsulin.github.io/redux/)
 [簡介](https://github.com/alex1290/react-study/blob/master/guide/redux.md) </br >
 提供一個state容器，方便維護、除錯，不用一個個找是哪個 Component 的 state 出了問題。 
 
-## immutable
+## 5. immutable
 [簡介](https://github.com/alex1290/react-study/blob/master/guide/immutable.md) </br >
-提供immutable的資料，解決JS修改資料複製的值也會修改到原本的值問題
+提供immutable的資料，解決JS修改資料複製的值也會修改到原本的值問題。
 
-## history
+## 6. history
 [簡介](https://github.com/alex1290/react-study/blob/master/guide/history.md) </br >
+提供管理 history session 的功能。
 
-## react-lazyload
+## 7. react-lazyload
 [簡介](https://github.com/alex1290/react-study/blob/master/guide/react-lazyload.md) </br >
+提供延遲載入，先載入重要的部分，提高效能。
 
