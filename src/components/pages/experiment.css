@@ -1,0 +1,23 @@
+.block{
+    width: 200px;
+    height: 100px;
+    background-color: #fa0;
+    cursor: pointer;
+}
+#addTodoText{
+    padding: 6px 8px;
+}
+.addTodoBtn{
+    display: inline-block;
+    margin: 0 15px;
+    color: white;
+    padding: 6px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #0af;
+    border: 2px solid #0af;
+}
+.addTodoBtn:hover{
+    background-color: #fff;
+    color: #0af;
+}

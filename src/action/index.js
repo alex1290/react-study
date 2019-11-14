@@ -1,4 +1,4 @@
-import * as actionTypes from "./types";
+import * as actionTypes from "./type";
 
 export const addTodo = text => {
   return {
@@ -7,16 +7,16 @@ export const addTodo = text => {
   };
 };
 
-export const removeTodo = index => {
+export const removeTodo = id => {
   return {
     type: actionTypes.REMOVE_TODO,
-    index
+    id
   };
 };
 
-export const toggleTodo = index => {
+export const toggleTodo = id => {
  return {
      type: actionTypes.TOGGLE_TODO,
-     index
+     id
  }
 }

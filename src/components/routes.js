@@ -1,4 +1,4 @@
-import  {Index, Place, Goods, Contact,Weather} from './pages';
+import  {Index, Experiment, Goods, Contact,Weather} from './pages';
 
 const routes = [
     {
@@ -8,9 +8,9 @@ const routes = [
         name: '首頁'
     },
     {
-        path: '/place',
-        component : Place,
-        name: '地點'
+        path: '/experiment',
+        component : Experiment,
+        name: '實驗'
     },
     {
         path: '/goods',

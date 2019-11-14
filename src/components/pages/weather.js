@@ -38,10 +38,6 @@ class Card extends React.Component {
 }
 
 class Data extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         let { filter, location } = this.props;
         if (filter) {

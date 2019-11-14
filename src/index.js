@@ -1,17 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import rootReducer from './reducer/index'
 import Header from './components/Header';
 import routes from './components/routes';
 import './index.css';
-// import App from './App';
+
 import * as serviceWorker from './serviceWorker';
 
+const store = createStore(rootReducer)
 
 class App extends React.Component {
     render() {
         return (
-            <div>
+            <Provider store={store}>
                 <Header />
                 <div className="container">
                     {routes.map((route,i)=>{
@@ -24,7 +28,7 @@ class App extends React.Component {
                         />
                     })}
                 </div>
-            </div>
+            </Provider>
         )
     }
 }

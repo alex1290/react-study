@@ -22,12 +22,10 @@
 ### class
 ```
     class App extends React.Component {
-        coonstructor(props){    //非必要，若有props才需使用constructor
-            super(props); //使constuctor接的到props的值
-            this.state = {  //存放component的資料
-                "example":"Hello World"
+        //存放component的狀態資料
+        state = {  
+                "example":"Hello World" 
             }
-        }
         render() {
             return (
                 <div> //包一層
