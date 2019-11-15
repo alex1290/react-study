@@ -2,21 +2,15 @@ import React from 'react';
 import './experiment.css';
 import { connect } from "react-redux";
 import * as action from '../../action/index'
-class TodoList extends React.Component {
-    render() {
-        return (
-            <ul className="todoList">
-                <li className="todoListItem"></li>
-            </ul>
-        )
-    }
-}
+import { checkServerIdentity } from 'tls';
+
 
 const AddTodo = ({ dispatch }) => {
     const add = () => {
-        let value = document.getElementById('addTodoText').value;
-        dispatch(action.addTodo(value));
-        value = ''
+        let val = document.getElementById('addTodoText').value;
+        if (val.trim())
+            dispatch(action.addTodo(val));
+        document.getElementById('addTodoText').value = ''
     }
     return (
         <div className="addTodo">
@@ -27,23 +21,60 @@ const AddTodo = ({ dispatch }) => {
 }
 
 class Todo extends React.Component {
+    state = {
+        todoListPage: ['All', 'Incomplete', 'completed'],
+        page: 'All',
+        filter: {
+            All: '',
+            Incomplete: false,
+            completed: true
+        }
+    }
+    changePage = (page) => this.setState({ page })
+
+    isCheck = (id) => this.props.dispatch(action.toggleTodo(id))
+
+    del = (id) => this.props.dispatch(action.removeTodo(id))
+
     render() {
         const { todo, dispatch } = this.props;
+        const { todoListPage, page, filter } = this.state;
         return (
             <div className="todo">
                 <AddTodo dispatch={dispatch} />
+                <ul className="todoPage">
+                    {todoListPage.map((item, index) => (
+                        <li
+                            className="todoPageItem"
+                            style={{
+                                backgroundColor: page === item ? '#0ca' : 'transparent',
+                                color: page === item ? 'white' : 'black'
+                            }}
+                            onClick={() => this.changePage(item)}
+                            key={index}
+                        >{item}</li>
+                    ))}
+                </ul>
                 <ul className="todoList">
-                    {console.log('test', todo)}
-                    {/* {todo.get('todoState').get('todoList').map(item => (
-                        <li className="todoListItem" key={item.get('id')}>
-                            <input type="checkbox" name="" id="" />
-                            <span
-                                style={{ textDecoration: item.get('completed') ? 'line-through' : 'none' }}
-                            >{item.get('text')}
-                            </span>
-                        </li>
-                    ))} */}
-                    <li className="todoListItem"></li>
+                    {todo.todoList.map((item, index) => {
+                        let { id, complete, text } = item;
+                        let contain =
+                            <li className="todoListItem" key={index}>
+                                <div className="todoListText">
+                                    <input type="checkbox" name="" id={'c' + id} defaultChecked={complete} onChange={() => this.isCheck(id)} />
+                                    <span
+                                        style={{ textDecoration: complete ? 'line-through' : 'none' }}
+                                    >{text}
+                                    </span>
+                                </div>
+                                <div className="todoListDel" onClick={() => this.del(id)}>delete</div>
+                            </li>
+                        if(page==='All'){
+                            return contain
+                        }else if(complete === filter[page]){
+                            return contain
+                        }
+                    })}
                 </ul>
             </div>
         )

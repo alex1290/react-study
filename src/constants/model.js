@@ -2,7 +2,6 @@ import Immutable from 'immutable';
 
 export const dataState = Immutable.fromJS({
     'todoState': {
-        nextId: 3,
         todoList: [
             {
                 complete: false,
@@ -10,7 +9,7 @@ export const dataState = Immutable.fromJS({
                 text: 'learn'
             },
             {
-                complete: false,
+                complete: true,
                 id: 1,
                 text: 'play'
             },
@@ -19,7 +18,8 @@ export const dataState = Immutable.fromJS({
                 id: 2,
                 text: 'sleep'
             },
-        ]
+        ],
+        nextId: 3
     }
 
 })

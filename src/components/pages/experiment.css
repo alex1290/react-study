@@ -4,6 +4,11 @@
     background-color: #fa0;
     cursor: pointer;
 }
+.todo{
+    width: 380px;
+    margin: auto;
+    padding: 20px;
+}
 #addTodoText{
     padding: 6px 8px;
 }
@@ -20,4 +25,54 @@
 .addTodoBtn:hover{
     background-color: #fff;
     color: #0af;
+}
+.todoPage{
+    display: flex;
+    justify-content: space-between;
+    padding-top:20px;
+}
+.todoPageItem{
+    width: 30%;
+    cursor: pointer;
+    padding: 5px;
+    /* border: 2px solid #0ca; */
+    border-radius: 8px 8px 0 0;
+}
+.todoPageItem:hover{
+    color: white !important;
+    background-color: #0ca !important;
+}
+.todoList{
+    text-align: left;
+    background-color: #0ca;
+    color: white;
+    border-radius: 0 0 8px 8px;
+}
+.todoListItem{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+    align-items: center;
+    border-bottom: 1px solid #fff;
+}
+.todoListText{
+    padding: 4px 6px;
+}
+.todoListText span{
+    margin-left: 10px;
+}
+.todoListDel{
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 0 20px;
+    background-color: #f00;
+    padding: 2px 4px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    border: 2px solid #f00;
+}
+.todoListDel:hover{
+    background-color: #fff;
+    color: #f00;
 }
