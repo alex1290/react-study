@@ -90,30 +90,27 @@
 以下為常用到的套件，安裝NodeJs後，在終端機輸入以下名稱就能安裝
 `npm install tittleName`
 
-## 1. [create-react-app](https://github.com/facebook/create-react-app)
-[簡介](https://github.com/alex1290/react-study/blob/master/guide/create-react-app.md) </br >
+## 1. [create-react-app](https://github.com/alex1290/react-study/blob/master/guide/create-react-app.md)
+[官方介紹](https://github.com/facebook/create-react-app) </br >
 用來快速建立 React 開發環境。
 
-## 2. [semantic-ui-react](https://react.semantic-ui.com/)
+## 2. semantic-ui-react
+[官方介紹](https://react.semantic-ui.com/)
 類似 bootstrap 提供多種組件以及 layout 以供取用。
 
-## 3. react-router
-[簡介](https://github.com/alex1290/react-study/blob/master/guide/react-router.md) </br >
+## 3. [react-router](https://github.com/alex1290/react-study/blob/master/guide/react-router.md)
 提供路由，方便寫出SPA。
 
-## 4. [redux](https://chentsulin.github.io/redux/)
-[簡介](https://github.com/alex1290/react-study/blob/master/guide/redux.md) </br >
+## 4. [redux](https://github.com/alex1290/react-study/blob/master/guide/redux.md)
+[官方介紹](https://chentsulin.github.io/redux/) </br >
 提供一個state容器，方便維護、除錯，不用一個個找是哪個 Component 的 state 出了問題。 
 
-## 5. immutable
-[簡介](https://github.com/alex1290/react-study/blob/master/guide/immutable.md) </br >
+## 5. [immutable](https://github.com/alex1290/react-study/blob/master/guide/immutable.md)
 提供immutable的資料，解決JS修改資料複製的值也會修改到原本的值問題。
 
-## 6. history
-[簡介](https://github.com/alex1290/react-study/blob/master/guide/history.md) </br >
+## 6. [history](https://github.com/alex1290/react-study/blob/master/guide/history.md)
 提供管理 history session 的功能。
 
-## 7. react-lazyload
-[簡介](https://github.com/alex1290/react-study/blob/master/guide/react-lazyload.md) </br >
+## 7. [react-lazyload](https://github.com/alex1290/react-study/blob/master/guide/react-lazyload.md)
 提供延遲載入，先載入重要的部分，提高效能。
 

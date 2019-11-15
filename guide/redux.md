@@ -14,7 +14,7 @@ src
 *在src下，除了 actions 和 reducers 其餘可以自行修改*
 
 ## 概念
-  建立一個store儲存所有的state，state是唯讀的。 </br >
+  建立一個store儲存所有的state，裡面的資料最好存放唯獨、不變的，例如: 文字訊息。 </br >
 
 ### 資料流程:
   1. 使用者與 View 互動 
