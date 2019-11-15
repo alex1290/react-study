@@ -95,7 +95,7 @@
 用來快速建立 React 開發環境。
 
 ## 2. semantic-ui-react
-[官方介紹](https://react.semantic-ui.com/)
+[官方介紹](https://react.semantic-ui.com/) </br >
 類似 bootstrap 提供多種組件以及 layout 以供取用。
 
 ## 3. [react-router](https://github.com/alex1290/react-study/blob/master/guide/react-router.md)
