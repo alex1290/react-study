@@ -58,22 +58,19 @@ class Todo extends React.Component {
                 <ul className="todoList">
                     {todo.todoList.map((item, index) => {
                         let { id, complete, text } = item;
-                        let contain =
-                            <li className="todoListItem" key={index}>
-                                <div className="todoListText">
-                                    <input type="checkbox" name="" id={'c' + id} defaultChecked={complete} onChange={() => this.isCheck(id)} />
-                                    <span
-                                        style={{ textDecoration: complete ? 'line-through' : 'none' }}
-                                    >{text}
-                                    </span>
-                                </div>
-                                <div className="todoListDel" onClick={() => this.del(id)}>delete</div>
-                            </li>
-                        if(page==='All'){
-                            return contain
-                        }else if(complete === filter[page]){
-                            return contain
-                        }
+                        if (page === 'All' || complete === filter[page])
+                            return (
+                                <li className="todoListItem" key={index}>
+                                    <div className="todoListText">
+                                        <input type="checkbox" name="" id={'c' + id} defaultChecked={complete} onChange={() => this.isCheck(id)} />
+                                        <span
+                                            style={{ textDecoration: complete ? 'line-through' : 'none' }}
+                                        >{text}
+                                        </span>
+                                    </div>
+                                    <div className="todoListDel" onClick={() => this.del(id)}>delete</div>
+                                </li>
+                            )
                     })}
                 </ul>
             </div>
