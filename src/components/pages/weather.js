@@ -18,8 +18,7 @@ class Card extends React.Component {
                         let { startTime, endTime } = t
                         let date = new Date().getDate();
                         let dateString = dataDate => {
-                            let day;
-                            if (date == dataDate.substring(8, 10)) {
+                            if (date === dataDate.substring(8, 10)) {
                                 return "Today " + dataDate.substring(11, 16);
                             } else {
                                 return "Tomorrow  " + dataDate.substring(11, 16);

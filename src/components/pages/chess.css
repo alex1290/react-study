@@ -1,0 +1,33 @@
+.chessContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+.board{
+    display: flex;
+    width: 400px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+    border: 1px solid #000;
+}
+.square{
+    box-sizing: border-box;
+    width: 50px;
+    line-height: 50px;
+    height: 50px;
+    border: 2px solid #000;
+}
+.note{
+    width: 300px;
+}
+.note h2 {
+    border-bottom: 2px solid #000;
+}
+.step{
+    width: 100px;
+    margin: auto;
+    text-align: left;
+    font-size: 20px;
+    padding: 5px;
+}

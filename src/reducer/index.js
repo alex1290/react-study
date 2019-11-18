@@ -51,8 +51,39 @@ const todo_reducer = (state = initialTodoState, action) => {
     }
 }
 
+let initialChessState = {
+    history: [[...dataState.getIn(['chessState', 'history',0])]],
+    stepNumber: dataState.getIn(['chessState', 'stepNumber']),
+    blackIsNext: dataState.getIn(['chessState', 'blackIsNext'])
+}
+
+const chess_reducer = (state = initialChessState, action) => {
+    switch (action.type) {
+        case actionTypes.MOVE_CHESS:
+            let move = action.history;
+            state.history.push(move);
+            console.log(!state.blackIsNext)
+            return {
+                history: state.history,
+                stepNumber: state.stepNumber + 1,
+                blackIsNext: !state.blackIsNext
+            }
+            
+        case actionTypes.RETURN_CHESS:
+            let { stepNumber } = action;
+            let newHistory = state.history.splice(stepNumber + 1)
+            return {
+                history: newHistory,
+                stepNumber: stepNumber,
+                blackIsNext: stepNumber % 2 === 0
+            }
+        default:
+            return state
+    }
+}
 const rootReducer = combineReducers({
     todoAction: todo_reducer,
+    chessAction: chess_reducer,
 });
 
 export default rootReducer;

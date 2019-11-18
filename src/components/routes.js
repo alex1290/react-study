@@ -1,4 +1,4 @@
-import  {Index, Experiment, Goods, Contact,Weather} from './pages';
+import  {Index, Experiment, Chess, Contact,Weather} from './pages';
 
 const routes = [
     {
@@ -13,9 +13,9 @@ const routes = [
         name: '實驗'
     },
     {
-        path: '/goods',
-        component : Goods,
-        name: '商品'
+        path: '/chess',
+        component : Chess,
+        name: '西洋棋'
     },
     {
         path: '/contact',
