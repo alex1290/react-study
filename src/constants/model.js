@@ -23,14 +23,14 @@ export const dataState = Immutable.fromJS({
     },
     chessState:{
         history:[[
-            'WR','Wk','WB','WQ',"WKing","WB",'WK',"WR",
+            'WR','WK','WB','WQ',"WKing","WB",'WK',"WR",
             'WP','WP','WP','WP','WP','WP','WP','WP',
             null,null,null,null,null,null,null,null,
             null,null,null,null,null,null,null,null,
             null,null,null,null,null,null,null,null,
             null,null,null,null,null,null,null,null,
             'BP','BP','BP','BP','BP','BP','BP','BP',
-            'BR','Bk','BB','BQ',"BKing","BB",'BK',"BR",
+            'BR','BK','BB','BQ',"BKing","BB",'BK',"BR",
         ]],
         stepNumber:0,
         blackIsNext:true,
