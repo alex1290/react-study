@@ -30,6 +30,8 @@
 }
 .stepBoard{
     padding: 10px;
+    height: 400px;
+    overflow-y: auto;
 }
 .step{
     width: 100px;
@@ -40,6 +42,7 @@
     border-bottom: 1px solid #ccc;
     cursor: pointer;
     margin-bottom: 5px;
+    box-sizing: border-box;
 }
 .step:hover{
     background-color: #ddd;

@@ -6,7 +6,7 @@ import * as action from '../../action/index'
 class Game extends React.Component {
     state = {
         selected: null,
-        nowStep:this.props.chessState.stepNumber
+        nowStep: this.props.chessState.stepNumber
     }
 
     selectPiece = (position) => {
@@ -20,7 +20,7 @@ class Game extends React.Component {
         let piece = document.getElementsByClassName('square')[position]
         let color = piece.innerHTML[0]
         let name = piece.innerHTML.substring(1)
-        if (color === (this.props.chessState.blackIsNext ? 'B' : 'W')) {
+        if (color === (this.state.nowStep % 2 === 0 ? 'B' : 'W')) {
             document.querySelectorAll('.square').forEach((i) => i.style.borderColor = '#000')
 
             let x = position % 8
@@ -209,8 +209,9 @@ class Game extends React.Component {
 
     movePiece = (newPosition) => {
         let { history, stepNumber } = this.props.chessState
-        let newHistory = [...history[stepNumber]]
         let { name, position } = this.state.selected
+        let { nowStep } = this.state
+        let newHistory = [...history[nowStep]]
         let [x, y] = position
         let newRow = Math.floor(newPosition / 8)
         let newCol = newPosition % 8
@@ -219,12 +220,11 @@ class Game extends React.Component {
         let piece = name.substring(1)
         let choose = document.getElementsByClassName('square')[newPosition]
         const move = () => {
-            let target = history[stepNumber][newPosition]
             newHistory[newPosition] = name;
             newHistory[y * 8 + x] = null;
             document.querySelectorAll('.square').forEach((i) => i.style.borderColor = '#000')
             this.setState({ selected: null });
-            this.props.dispatch(action.moveChess(newHistory));
+            this.props.dispatch(action.moveChess(newHistory, nowStep + 1));
         }
 
         const cancel = () => {
@@ -235,40 +235,51 @@ class Game extends React.Component {
 
         if (choose.style.borderColor == 'rgb(255, 0, 0)') {
             move()
+            this.setState({ nowStep: this.state.nowStep + 1 })
         } else {
             cancel()
         }
     }
 
+
+
+    backTracking = (step) => {
+        this.setState({ nowStep: step })
+    }
+
     win = board => {
-        console.log('test')
-        if(board.indexOf('WKing') === -1){
-            alert('Black win !')
-            console.log('win')
+        if (board.indexOf('WKing') === -1) {
+            return ('Black win !')
         }
-        if(board.indexOf('BKing') === -1){
-            alert('White win !')
+        if (board.indexOf('BKing') === -1) {
+            return ('White win !')
         }
+        return null
     }
 
-    backTracking = (step) =>{
 
-    }
-    componentDidUpdate(){
-        const { chessState } = this.props;
-        let { history, stepNumber} = chessState;
-        this.win(history[stepNumber])
+    componentDidUpdate() {
+        //自董滾卷軸
+        let stepBoard = document.getElementsByClassName('stepBoard')[0]
+        stepBoard.scrollTop = stepBoard.scrollHeight
+
+        // const { chessState } = this.props;
+        // let { history, stepNumber } = chessState;
+        // //勝利判定
+        // this.win(history[stepNumber])
     }
 
     render() {
         const { chessState } = this.props;
         let { history, stepNumber, blackIsNext } = chessState;
-        let color = blackIsNext ? 'B' : 'W'
+        let { nowStep } = this.state
+        let color = nowStep % 2 === 0 ? 'B' : 'W'
         let col = true;
+        let win = this.win(history[nowStep])? this.win(history[nowStep]) : nowStep % 2 === 0 ? 'Black turn' : 'White turn' 
         return (
             <div className="chessContainer">
                 <div className="board">
-                    {history[stepNumber].map((item, index) => {
+                    {history[nowStep].map((item, index) => {
                         if (index % 8 == 0) {
                             col = !col
                         }
@@ -277,21 +288,31 @@ class Game extends React.Component {
                                 key={index}
                                 style={{
                                     backgroundColor: index % 2 === (col ? 0 : 1) ? '#FFCE9E' : '#D18B47',
-                                    cursor: item && item[0] === color ? 'pointer' : 'auto'
+                                    cursor: item && item[0] === color && !this.win(history[nowStep])? 'pointer' : 'auto'
                                 }}
-                                onClick={() => this.state.selected ? this.movePiece(index) : this.selectPiece(index)}
+                                onClick={() => {
+                                    if(!this.win(history[nowStep]))
+                                    this.state.selected 
+                                    ? this.movePiece(index)
+                                    : this.selectPiece(index)
+                                }}
                             >{item}</div>
                         )
                     })}
                 </div>
                 <div className="note">
-                    <h2>{blackIsNext ? 'Black' : 'White'} turn</h2>
+                    <h2>{win}</h2>
                     <ul className="stepBoard">
-                        {history.map((item, index) =>
-                            <li className="step"
+                        {history.map((item, index) => {
+                            return (<li className="step"
                                 key={index}
-                            >step: <span>{index + 1}</span></li>
-                        )}
+                                onClick={() => this.backTracking(index)}
+                                style={{
+                                    border: nowStep === index && index !== 0 ? '1px solid #fa0' : 'none'
+                                }}
+                            >{index === 0 ? "Restart" : `step: ${index}`}
+                            </li>)
+                        })}
                     </ul>
                 </div>
             </div>

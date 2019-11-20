@@ -21,9 +21,17 @@ export const toggleTodo = id => {
  }
 }
 
-export const moveChess = (history) => {
+export const moveChess = (history, step) => {
   return {
     type: actionTypes.MOVE_CHESS,
-    history
+    history,
+    step
+  }
+}
+
+export const returnChess = step => {
+  return {
+    type: actionTypes.RETURN_CHESS,
+    step
   }
 }

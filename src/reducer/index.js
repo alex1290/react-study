@@ -61,12 +61,13 @@ const chess_reducer = (state = initialChessState, action) => {
     switch (action.type) {
         case actionTypes.MOVE_CHESS:
             let move = action.history;
+            state.history = state.history.splice(0,action.step)
             state.history.push(move);
             console.log(!state.blackIsNext)
             return {
                 history: state.history,
-                stepNumber: state.stepNumber + 1,
-                blackIsNext: !state.blackIsNext
+                stepNumber: action.step,
+                blackIsNext: action.step % 2 === 0
             }
             
         case actionTypes.RETURN_CHESS:
