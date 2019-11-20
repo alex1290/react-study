@@ -29,9 +29,9 @@ export const moveChess = (history, step) => {
   }
 }
 
-export const returnChess = step => {
+export const upgradeChess = history => {
   return {
-    type: actionTypes.RETURN_CHESS,
-    step
+    type: actionTypes.UPGRADE_CHESS,
+    history
   }
 }

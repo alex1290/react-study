@@ -6,7 +6,8 @@ import * as action from '../../action/index'
 class Game extends React.Component {
     state = {
         selected: null,
-        nowStep: this.props.chessState.stepNumber
+        nowStep: this.props.chessState.stepNumber,
+        upgrade: null
     }
 
     selectPiece = (position) => {
@@ -232,16 +233,18 @@ class Game extends React.Component {
             this.setState({ selected: null });
         }
 
-
-        if (choose.style.borderColor == 'rgb(255, 0, 0)') {
+        if (choose.style.borderColor === 'rgb(255, 0, 0)') {
             move()
             this.setState({ nowStep: this.state.nowStep + 1 })
+            if (piece === 'P' && (newRow === 0 || newRow === 7)) {
+                this.setState({ upgrade: newPosition })
+            }
         } else {
             cancel()
         }
     }
 
-
+    
 
     backTracking = (step) => {
         this.setState({ nowStep: step })
@@ -259,23 +262,27 @@ class Game extends React.Component {
 
 
     componentDidUpdate() {
-        //自董滾卷軸
+        //滾卷軸
         let stepBoard = document.getElementsByClassName('stepBoard')[0]
         stepBoard.scrollTop = stepBoard.scrollHeight
-
-        // const { chessState } = this.props;
-        // let { history, stepNumber } = chessState;
-        // //勝利判定
-        // this.win(history[stepNumber])
     }
 
     render() {
-        const { chessState } = this.props;
+        const { chessState, dispatch } = this.props;
         let { history, stepNumber, blackIsNext } = chessState;
-        let { nowStep } = this.state
+        let { nowStep, upgrade } = this.state
         let color = nowStep % 2 === 0 ? 'B' : 'W'
         let col = true;
-        let win = this.win(history[nowStep])? this.win(history[nowStep]) : nowStep % 2 === 0 ? 'Black turn' : 'White turn' 
+        let win = this.win(history[nowStep]) ? this.win(history[nowStep]) : nowStep % 2 === 0 ? 'Black turn' : 'White turn'
+
+        const replace = () => {
+            let upgradeValue = document.getElementById('upgrade').value
+            history[nowStep][upgrade] = history[nowStep][upgrade][0] + upgradeValue
+            dispatch(action.upgradeChess(history))
+            this.setState({upgrade:null})
+         }
+
+
         return (
             <div className="chessContainer">
                 <div className="board">
@@ -288,13 +295,13 @@ class Game extends React.Component {
                                 key={index}
                                 style={{
                                     backgroundColor: index % 2 === (col ? 0 : 1) ? '#FFCE9E' : '#D18B47',
-                                    cursor: item && item[0] === color && !this.win(history[nowStep])? 'pointer' : 'auto'
+                                    cursor: item && item[0] === color && !this.win(history[nowStep]) ? 'pointer' : 'auto'
                                 }}
                                 onClick={() => {
-                                    if(!this.win(history[nowStep]))
-                                    this.state.selected 
-                                    ? this.movePiece(index)
-                                    : this.selectPiece(index)
+                                    if (!this.win(history[nowStep]))
+                                        this.state.selected
+                                            ? this.movePiece(index)
+                                            : this.selectPiece(index)
                                 }}
                             >{item}</div>
                         )
@@ -314,6 +321,27 @@ class Game extends React.Component {
                             </li>)
                         })}
                     </ul>
+                </div>
+                <div
+                    className="modal"
+                    style={{
+                        display: upgrade ? 'block' : 'none'
+                    }}
+                >
+                    <div className="modalBox">
+                        <p>Upgrade</p>
+                        <select name="upgrade" id="upgrade" >
+                            <option value="Q">Queen</option>
+                            <option value="B">Bishop</option>
+                            <option value="K">Knight</option>
+                            <option value="R">Rook</option>
+                        </select>
+                        <div
+                            className="ConfirmBtn"
+                            onClick={() => replace()}
+                        >Confirm</div>
+                    </div>
+
                 </div>
             </div>
 
