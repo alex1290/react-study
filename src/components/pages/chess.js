@@ -7,7 +7,8 @@ class Game extends React.Component {
     state = {
         selected: null,
         nowStep: this.props.chessState.stepNumber,
-        upgrade: null
+        upgrade: null,
+        moved: []
     }
 
     selectPiece = (position) => {
@@ -21,7 +22,9 @@ class Game extends React.Component {
         let piece = document.getElementsByClassName('square')[position]
         let color = piece.innerHTML[0]
         let name = piece.innerHTML.substring(1)
-        if (color === (this.state.nowStep % 2 === 0 ? 'B' : 'W')) {
+        let { nowStep, moved } = this.state
+        console.log(moved)
+        if (color === (nowStep % 2 === 0 ? 'B' : 'W')) {
             document.querySelectorAll('.square').forEach((i) => i.style.borderColor = '#000')
 
             let x = position % 8
@@ -86,6 +89,31 @@ class Game extends React.Component {
                         if (square(x, i) !== 'Null') {
                             break
                         }
+                    }
+                    let rookName = x > 4 ? 'R'+name : 'L' + name
+                    let rookMoved = moved.indexOf(rookName) !== -1
+                    let kingMoved = moved.indexOf(color+'King') !== -1
+                    let RKbetween = () => {
+                        if (x - 4 > 0) {
+                            for (let i = x - 1; i > 4; i--) {
+                                if (square(i, y) !== 'Null') {
+                                    break
+                                }
+                                if (i === 5)
+                                    movement.push([4, y])
+                            }
+                        }else{
+                            for (let i = x + 1; i < 4; i++) {
+                                if (square(i, y) !== 'Null') {
+                                    break
+                                }
+                                if (i === 3)
+                                    movement.push([4, y])
+                            }
+                        }
+                    }
+                    if(!rookMoved && !kingMoved){
+                        RKbetween()
                     }
                     break;
                 case 'K':
@@ -191,6 +219,34 @@ class Game extends React.Component {
                             movement.push([x, y])
                         }
                     })
+                    let KingMoved = moved.indexOf(name) !== -1
+                    let RrookMoved = moved.indexOf('R'+color+'R') !== -1
+                    let LrookMoved = moved.indexOf('L'+color+'R') !== -1
+                    let KRbetween = () => {
+                        if (x - 4 > 0) {
+                            for (let i = x - 1; i > 4; i--) {
+                                if (square(i, y) !== 'Null') {
+                                    break
+                                }
+                                if (i === 5)
+                                    movement.push([4, y])
+                            }
+                        }else{
+                            for (let i = x + 1; i < 4; i++) {
+                                if (square(i, y) !== 'Null') {
+                                    break
+                                }
+                                if (i === 3)
+                                    movement.push([4, y])
+                            }
+                        }
+                    }
+                    if(!RrookMoved && !KingMoved){
+                        KRbetween()
+                    }
+                    if(!LrookMoved && !KingMoved){
+                        KRbetween()
+                    }
                     break;
             }
             if (movement) {
@@ -211,7 +267,7 @@ class Game extends React.Component {
     movePiece = (newPosition) => {
         let { history, stepNumber } = this.props.chessState
         let { name, position } = this.state.selected
-        let { nowStep } = this.state
+        let { nowStep, moved } = this.state
         let newHistory = [...history[nowStep]]
         let [x, y] = position
         let newRow = Math.floor(newPosition / 8)
@@ -234,6 +290,14 @@ class Game extends React.Component {
         }
 
         if (choose.style.borderColor === 'rgb(255, 0, 0)') {
+            if (moved.indexOf(name) === -1 && piece === 'King') {
+                this.setState({ moved: [...moved, name] })
+            }
+            if(piece === 'R'){
+                let rookName = x > 4 ? 'R'+name : 'L' + name
+                if(moved.indexOf(rookName) === -1)
+                this.setState({ moved: [...moved, rookName] })
+            }
             move()
             this.setState({ nowStep: this.state.nowStep + 1 })
             if (piece === 'P' && (newRow === 0 || newRow === 7)) {
@@ -244,7 +308,7 @@ class Game extends React.Component {
         }
     }
 
-    
+
 
     backTracking = (step) => {
         this.setState({ nowStep: step })
@@ -279,8 +343,8 @@ class Game extends React.Component {
             let upgradeValue = document.getElementById('upgrade').value
             history[nowStep][upgrade] = history[nowStep][upgrade][0] + upgradeValue
             dispatch(action.upgradeChess(history))
-            this.setState({upgrade:null})
-         }
+            this.setState({ upgrade: null })
+        }
 
 
         return (
