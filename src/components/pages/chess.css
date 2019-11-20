@@ -5,12 +5,15 @@
 }
 .board{
     display: flex;
-    width: 400px;
-    height: 400px;
+    width: 455px;
+    box-sizing: border-box;
+    height: 450px;
     flex-wrap: wrap;
     margin-bottom: 20px;
     border-collapse: collapse;
     border: 1px solid #000;
+    position: relative;
+    padding: 25px;
 }
 .square{
     box-sizing: border-box;
@@ -25,10 +28,22 @@
 .note h2 {
     border-bottom: 2px solid #000;
 }
+.stepBoard{
+    padding: 10px;
+}
 .step{
     width: 100px;
     margin: auto;
     text-align: left;
     font-size: 20px;
     padding: 5px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+.step:hover{
+    background-color: #ddd;
+}
+.step > span{
+    margin-left: 20px;
 }

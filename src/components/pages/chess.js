@@ -6,21 +6,13 @@ import * as action from '../../action/index'
 class Game extends React.Component {
     state = {
         selected: null,
-        rule: {
-            P: [[0, 1], [0, 2]],
-            R: [[1, 0], [0, 1]],
-            K: [[1, 2], [2, 1]],
-            B: [[1, 1]],
-            Q: [[1, 0], [0, 1], [1, 1]],
-            K: [[1, 0], [0, 1], [1, 1]],
-        }
+        nowStep:this.props.chessState.stepNumber
     }
 
     selectPiece = (position) => {
         let square = (x, y) => {
             if (x < 8 && y < 8 && x >= 0 && y >= 0) {
                 let sq = document.getElementsByClassName('square')[y * 8 + x].innerHTML
-                console.log(sq)
                 return sq ? sq : 'Null'
             }
             return 'Out'
@@ -33,8 +25,6 @@ class Game extends React.Component {
 
             let x = position % 8
             let y = Math.floor(position / 8)
-            let col = [0, 1, 2, 3, 4, 5, 6, 7]
-            let row = [0, 1, 2, 3, 4, 5, 6, 7]
             let movement = []
             switch (name) {
                 case 'P':
@@ -45,7 +35,6 @@ class Game extends React.Component {
                                 movement.push([x, y - 2])
                             }
                         }
-
                         if (square(x + 1, y - 1) && square(x + 1, y - 1)[0] !== color && square(x + 1, y - 1) !== 'Null' && square(x + 1, y - 1) !== 'Out') {
                             movement.push([x + 1, y - 1])
                         }
@@ -77,7 +66,6 @@ class Game extends React.Component {
                         }
                     }
                     for (let i = x - 1; i >= 0; i--) {
-                        console.log(square(i, y)[0])
                         if (square(i, y)[0] !== color)
                             movement.push([i, y])
                         if (square(i, y) !== 'Null') {
@@ -102,13 +90,42 @@ class Game extends React.Component {
                 case 'K':
                     let knight = [[x + 1, y + 2], [x - 1, y - 2], [x + 1, y - 2], [x - 1, y + 2], [x - 2, y - 1], [x + 2, y - 1], [x - 2, y + 1], [x + 2, y + 1]]
                     knight.forEach(([x, y]) => {
-                        console.log(x, y, square(x, y))
                         if (square(x, y) !== 'Out' && square(x, y)[0] !== color) {
                             movement.push([x, y])
                         }
                     })
                     break;
                 case 'B':
+                    for (let i = 1; x + i < 8 && y + i < 8; i++) {
+                        if (square(x + i, y + i)[0] !== color)
+                            movement.push([x + i, y + i])
+                        if (square(x + i, y + i) !== 'Null') {
+                            break
+                        }
+                    }
+                    for (let i = 1; x - i >= 0 && y + i < 8; i++) {
+                        if (square(x - i, y + i)[0] !== color)
+                            movement.push([x - i, y + i])
+                        if (square(x - i, y + i) !== 'Null') {
+                            break
+                        }
+                    }
+                    for (let i = 1; x + i < 8 && y - i >= 0; i++) {
+                        if (square(x + i, y - i)[0] !== color)
+                            movement.push([x + i, y - i])
+                        if (square(x + i, y - i) !== 'Null') {
+                            break
+                        }
+                    }
+                    for (let i = 1; x - i < 8 && y - i >= 0; i++) {
+                        if (square(x - i, y - i)[0] !== color)
+                            movement.push([x - i, y - i])
+                        if (square(x - i, y - i) !== 'Null') {
+                            break
+                        }
+                    }
+                    break;
+                case 'Q':
                     for (let i = x + 1; i < 8; i++) {
                         if (square(i, y)[0] !== color)
                             movement.push([i, y])
@@ -116,15 +133,64 @@ class Game extends React.Component {
                             break
                         }
                     }
-                // col.map((i) => {
-                //     if(i!==x && square(i,y)[0] !== color)
-                //     movement.push([i, y])
-                // })
-                // row.map((i) => {
-                //     if(i!==y && square(x,i)[0] !== color)
-                //     movement.push([x, i])
-                // })
-
+                    for (let i = x - 1; i >= 0; i--) {
+                        if (square(i, y)[0] !== color)
+                            movement.push([i, y])
+                        if (square(i, y) !== 'Null') {
+                            break
+                        }
+                    }
+                    for (let i = y + 1; i < 8; i++) {
+                        if (square(x, i)[0] !== color)
+                            movement.push([x, i])
+                        if (square(x, i) !== 'Null') {
+                            break
+                        }
+                    }
+                    for (let i = y - 1; i >= 0; i--) {
+                        if (square(x, i)[0] !== color)
+                            movement.push([x, i])
+                        if (square(x, i) !== 'Null') {
+                            break
+                        }
+                    }
+                    for (let i = 1; x + i < 8 && y + i < 8; i++) {
+                        if (square(x + i, y + i)[0] !== color)
+                            movement.push([x + i, y + i])
+                        if (square(x + i, y + i) !== 'Null') {
+                            break
+                        }
+                    }
+                    for (let i = 1; x - i >= 0 && y + i < 8; i++) {
+                        if (square(x - i, y + i)[0] !== color)
+                            movement.push([x - i, y + i])
+                        if (square(x - i, y + i) !== 'Null') {
+                            break
+                        }
+                    }
+                    for (let i = 1; x + i < 8 && y - i >= 0; i++) {
+                        if (square(x + i, y - i)[0] !== color)
+                            movement.push([x + i, y - i])
+                        if (square(x + i, y - i) !== 'Null') {
+                            break
+                        }
+                    }
+                    for (let i = 1; x - i < 8 && y - i >= 0; i++) {
+                        if (square(x - i, y - i)[0] !== color)
+                            movement.push([x - i, y - i])
+                        if (square(x - i, y - i) !== 'Null') {
+                            break
+                        }
+                    }
+                    break;
+                case 'King':
+                    let king = [[x + 1, y], [x - 1, y], [x + 1, y + 1], [x + 1, y - 1], [x, y + 1], [x, y - 1], [x - 1, y + 1], [x - 1, y - 1]]
+                    king.forEach(([x, y]) => {
+                        if (square(x, y) !== 'Out' && square(x, y)[0] !== color) {
+                            movement.push([x, y])
+                        }
+                    })
+                    break;
             }
             if (movement) {
                 movement.map(([x, y]) => {
@@ -153,6 +219,7 @@ class Game extends React.Component {
         let piece = name.substring(1)
         let choose = document.getElementsByClassName('square')[newPosition]
         const move = () => {
+            let target = history[stepNumber][newPosition]
             newHistory[newPosition] = name;
             newHistory[y * 8 + x] = null;
             document.querySelectorAll('.square').forEach((i) => i.style.borderColor = '#000')
@@ -171,39 +238,28 @@ class Game extends React.Component {
         } else {
             cancel()
         }
-        // const isExist = (row, col, newRow, newCol, color) => {
-        //      if(row === newRow ){
-        //         let between = []
-        //         for(let i = col;i < newCol - col )
-        //      }
-        // }
-        // rule
-        // switch (piece) {
-        //     case 'P':
-        //         if (color === 'B') {
-        //             if (!target && (newRow === row - 1 || (row === 6 && newRow === 4)) && newCol === col) {
-        //                 move()
-        //             } else if (target && target[0] !== color && newRow === row - 1 && (newCol === col + 1 || newCol === col - 1)) {
-        //                 move()
-        //             }
-        //         } else if (color === 'W') {
-        //             if (!target && (newRow === row + 1 || (row === 1 && newRow === 3)) && newCol === col) {
-        //                 move()
-        //             } else if (target && target[0] !== color && newRow === row + 1 && (newCol === col + 1 || newCol === col - 1)) {
-        //                 move()
-        //             }
-        //         }
-        //         break;
-        //     case 'R':
-        //         console.log(piece, 'R')
-        //         if (target[0] !== color && (newCol === col || newRow === row)) {
-        //             move()
-        //         }
-        //         break;
-        // }
+    }
 
+    win = board => {
+        console.log('test')
+        if(board.indexOf('WKing') === -1){
+            alert('Black win !')
+            console.log('win')
+        }
+        if(board.indexOf('BKing') === -1){
+            alert('White win !')
+        }
+    }
+
+    backTracking = (step) =>{
 
     }
+    componentDidUpdate(){
+        const { chessState } = this.props;
+        let { history, stepNumber} = chessState;
+        this.win(history[stepNumber])
+    }
+
     render() {
         const { chessState } = this.props;
         let { history, stepNumber, blackIsNext } = chessState;
@@ -234,7 +290,7 @@ class Game extends React.Component {
                         {history.map((item, index) =>
                             <li className="step"
                                 key={index}
-                            >step: {index + 1}</li>
+                            >step: <span>{index + 1}</span></li>
                         )}
                     </ul>
                 </div>
@@ -249,7 +305,6 @@ class Chess extends React.Component {
 
     render() {
         const { chessState, dispatch } = this.props;
-        console.log(this.props)
         return (
             <div>
                 <h1>Chess</h1>
