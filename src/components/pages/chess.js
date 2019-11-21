@@ -306,12 +306,10 @@ class Game extends React.Component {
 
         if (choose.style.borderColor === 'rgb(255, 0, 0)') {
             moved = moved.splice(0, nowStep)
-
-            console.log(moved)
             if ((piece === 'King' || piece === 'R') && target[0] === color) {
-                castling()
                 let rookName = (x === 7 || newCol === 7 ? 'R' : 'L') + color + 'R'
                 moved[nowStep] = [...moved[nowStep - 1], color + 'King', rookName]
+                castling()
             } else {
                 if (piece === 'King' && moved[nowStep - 1].indexOf(name) === -1) {
                     moved[nowStep] = [...moved[nowStep - 1], name]
@@ -325,9 +323,9 @@ class Game extends React.Component {
                 } else {
                     moved[nowStep] = nowStep - 1 < 0 ? [] : moved[nowStep - 1]
                 }
-                this.setState({ moved: moved })
                 move()
             }
+            this.setState({ moved: moved })
             this.setState({ nowStep: this.state.nowStep + 1 })
             if (piece === 'P' && (newRow === 0 || newRow === 7)) {
                 this.setState({ upgrade: newPosition })
@@ -430,7 +428,7 @@ class Game extends React.Component {
                     <ul className="stepBoard">
                         {history.map((item, index) => {
                             return (<li className="step"
-                                key={index}
+                                key={item}
                                 onClick={() => this.backTracking(index)}
                                 style={{
                                     border: nowStep === index && index !== 0 ? '1px solid #fa0' : 'none'

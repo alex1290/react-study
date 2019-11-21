@@ -50,7 +50,7 @@ class Box extends React.Component {
                 onMouseLeave={() => this.onMouseLeave()}
             >
                 {list.contain.map(item =>
-                    <Item item={item} />
+                    <Item item={item} key={item}/>
                 )}
             </ul>
         )
@@ -84,6 +84,12 @@ class SingleItem extends React.Component {
         )
     }
 }
+
+// class Dragging extends React.Component {
+//     render() {
+//         // return this.props.el
+//     }
+// }
 
 class DragList extends React.Component {
     render() {
