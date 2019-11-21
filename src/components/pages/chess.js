@@ -304,17 +304,26 @@ class Game extends React.Component {
         }
 
         if (choose.style.borderColor === 'rgb(255, 0, 0)') {
+            moved = moved.splice(0, nowStep)
             if ((piece === 'King' || piece === 'R') && target[0] === color) {
                 castling()
+                let rookName = (x === 7 || newCol === 7 ? 'R' : 'L') + color + 'R'
+                moved[nowStep] = [...moved[nowStep - 1], color + 'King', rookName]
             } else {
-                if (moved.indexOf(name) === -1 && piece === 'King') {
-                    this.setState({ moved: [...moved, name] })
-                }
-                if (piece === 'R') {
+                if (piece === 'King' && moved[nowStep - 1].indexOf(name) === -1) {
+                    moved[nowStep] = [...moved[nowStep - 1], name]
+                } else if (piece === 'R') {
                     let rookName = x > 4 ? 'R' + name : 'L' + name
-                    if (moved.indexOf(rookName) === -1)
-                        this.setState({ moved: [...moved, rookName] })
+                    if (moved[nowStep - 1].indexOf(rookName) === -1) {
+                        moved[nowStep] = [...moved[nowStep - 1], name]
+                    } else {
+                        moved[nowStep] = [...moved[nowStep - 1]]
+                    }
+                } else {
+                    moved[nowStep] = nowStep === 0 ? [] : [...moved[nowStep - 1]]
                 }
+                this.setState({ moved: moved })
+                console.log(moved)
                 move()
             }
             this.setState({ nowStep: this.state.nowStep + 1 })
