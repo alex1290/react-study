@@ -11,6 +11,7 @@ class Game extends React.Component {
     }
 
     selectPiece = (position) => {
+
         let square = (x, y) => {
             if (x < 8 && y < 8 && x >= 0 && y >= 0) {
                 let sq = document.getElementsByClassName('square')[y * 8 + x].innerHTML
@@ -18,6 +19,7 @@ class Game extends React.Component {
             }
             return 'Out'
         }
+
         let piece = document.getElementsByClassName('square')[position]
         let color = piece.innerHTML[0]
         let name = piece.innerHTML.substring(1)
@@ -230,8 +232,8 @@ class Game extends React.Component {
                                 if (i === 6)
                                     movement.push([7, y])
                             }
-                        } 
-                        if(!LrookMoved) {
+                        }
+                        if (!LrookMoved) {
                             for (let i = x - 1; i > 0; i--) {
                                 if (square(i, y) !== 'Null') {
                                     break
@@ -286,16 +288,35 @@ class Game extends React.Component {
             this.setState({ selected: null });
         }
 
+        const castling = () => {
+            newHistory[newPosition] = null;
+            newHistory[y * 8 + x] = null;
+            if (x === 0 || newCol === 0) {
+                newHistory[y * 8 + 2] = color + 'King'
+                newHistory[y * 8 + 3] = color + 'R'
+            } else {
+                newHistory[y * 8 + 6] = color + 'King'
+                newHistory[y * 8 + 5] = color + 'R'
+            }
+            document.querySelectorAll('.square').forEach((i) => i.style.borderColor = '#000')
+            this.setState({ selected: null });
+            this.props.dispatch(action.moveChess(newHistory, nowStep + 1));
+        }
+
         if (choose.style.borderColor === 'rgb(255, 0, 0)') {
-            if (moved.indexOf(name) === -1 && piece === 'King') {
-                this.setState({ moved: [...moved, name] })
+            if ((piece === 'King' || piece === 'R') && target[0] === color) {
+                castling()
+            } else {
+                if (moved.indexOf(name) === -1 && piece === 'King') {
+                    this.setState({ moved: [...moved, name] })
+                }
+                if (piece === 'R') {
+                    let rookName = x > 4 ? 'R' + name : 'L' + name
+                    if (moved.indexOf(rookName) === -1)
+                        this.setState({ moved: [...moved, rookName] })
+                }
+                move()
             }
-            if (piece === 'R') {
-                let rookName = x > 4 ? 'R' + name : 'L' + name
-                if (moved.indexOf(rookName) === -1)
-                    this.setState({ moved: [...moved, rookName] })
-            }
-            move()
             this.setState({ nowStep: this.state.nowStep + 1 })
             if (piece === 'P' && (newRow === 0 || newRow === 7)) {
                 this.setState({ upgrade: newPosition })
@@ -326,10 +347,6 @@ class Game extends React.Component {
         //滾卷軸
         let stepBoard = document.getElementsByClassName('stepBoard')[0]
         stepBoard.scrollTop = stepBoard.scrollHeight
-
-        let square = document.getElementsByClassName('square')
-        // square.sheet.insertRule
-        // console.log(square)
     }
 
     render() {
@@ -339,6 +356,8 @@ class Game extends React.Component {
         let color = nowStep % 2 === 0 ? 'B' : 'W'
         let col = true;
         let win = this.win(history[nowStep]) ? this.win(history[nowStep]) : nowStep % 2 === 0 ? 'Black turn' : 'White turn'
+        let cpos = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+        let rpos = ['1', '2', '3', '4', '5', '6', '7', '8']
 
         const replace = () => {
             let upgradeValue = document.getElementById('upgrade').value
@@ -359,7 +378,7 @@ class Game extends React.Component {
                         let style = {
                             backgroundColor: index % 2 === (col ? 0 : 1) ? '#FFCE9E' : '#D18B47',
                             cursor: item && item[0] === color && !this.win(history[nowStep]) ? 'pointer' : 'auto',
-                            backgroundImage:`url(${url})`
+                            backgroundImage: `url(${url})`
                         }
                         return (
                             <div className='square'
@@ -374,6 +393,22 @@ class Game extends React.Component {
                             >{item}</div>
                         )
                     })}
+                    <ul className="colPosition">
+                        {cpos.map((item, index) =>
+                            <li
+                                className="cpos"
+                                key={index}
+                            >{item}</li>
+                        )}
+                    </ul>
+                    <ul className="rowPosition">
+                        {rpos.reverse().map((item, index) =>
+                            <li
+                                className="rpos"
+                                key={index}
+                            >{item}</li>
+                        )}
+                    </ul>
                 </div>
                 <div className="note">
                     <h2>{win}</h2>

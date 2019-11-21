@@ -16,6 +16,24 @@
     position: relative;
     padding: 25px;
 }
+.colPosition{
+    position: absolute;
+    bottom: 0;
+    width: 400px;
+    display: flex;
+}
+.cpos{
+    width: 50px;
+}
+.rowPosition{
+    position: absolute;
+    left: 0;
+}
+.rpos{
+    height: 50px;
+    width: 25px;
+    line-height: 50px;
+}
 .square{
     box-sizing: border-box;
     width: 50px;
