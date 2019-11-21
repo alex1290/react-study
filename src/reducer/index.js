@@ -35,7 +35,7 @@ const todo_reducer = (state = initialTodoState, action) => {
         case actionTypes.TOGGLE_TODO:
             return {
                 todoList: state.todoList.map(item => {
-                    if (item.id == action.id)
+                    if (item.id === action.id)
                         item.complete = !item.complete
                     return item
                 }),
@@ -43,7 +43,7 @@ const todo_reducer = (state = initialTodoState, action) => {
             }
         case actionTypes.REMOVE_TODO:
             return {
-                todoList: state.todoList.filter(item => item.id != action.id),
+                todoList: state.todoList.filter(item => item.id !== action.id),
                 nextId: state.nextId
             }
         default:

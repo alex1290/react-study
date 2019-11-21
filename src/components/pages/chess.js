@@ -24,7 +24,6 @@ class Game extends React.Component {
         let color = piece.innerHTML[0]
         let name = piece.innerHTML.substring(1)
         let { nowStep, moved } = this.state
-        console.log(moved)
         if (color === (nowStep % 2 === 0 ? 'B' : 'W')) {
             document.querySelectorAll('.square').forEach((i) => i.style.borderColor = '#000')
 
@@ -247,9 +246,11 @@ class Game extends React.Component {
                         KRbetween()
                     }
                     break;
+                default: 
+                return null
             }
             if (movement) {
-                movement.map(([x, y]) => {
+                movement.forEach(([x, y]) => {
                     document.getElementsByClassName('square')[y * 8 + x].style.borderColor = '#f00'
                 })
             }
@@ -264,7 +265,7 @@ class Game extends React.Component {
     }
 
     movePiece = (newPosition) => {
-        let { history, stepNumber } = this.props.chessState
+        let { history } = this.props.chessState
         let { name, position } = this.state.selected
         let { nowStep, moved } = this.state
         let newHistory = [...history[nowStep]]
@@ -323,7 +324,6 @@ class Game extends React.Component {
                     moved[nowStep] = nowStep === 0 ? [] : [...moved[nowStep - 1]]
                 }
                 this.setState({ moved: moved })
-                console.log(moved)
                 move()
             }
             this.setState({ nowStep: this.state.nowStep + 1 })
@@ -360,7 +360,7 @@ class Game extends React.Component {
 
     render() {
         const { chessState, dispatch } = this.props;
-        let { history, stepNumber, blackIsNext } = chessState;
+        let { history } = chessState;
         let { nowStep, upgrade } = this.state
         let color = nowStep % 2 === 0 ? 'B' : 'W'
         let col = true;
@@ -380,7 +380,7 @@ class Game extends React.Component {
             <div className="chessContainer">
                 <div className="board">
                     {history[nowStep].map((item, index) => {
-                        if (index % 8 == 0) {
+                        if (index % 8 === 0) {
                             col = !col
                         }
                         let url = item ? require(`../../img/chess/${item}.jpg`) : null;

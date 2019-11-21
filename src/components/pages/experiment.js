@@ -70,6 +70,7 @@ class Todo extends React.Component {
                                     <div className="todoListDel" onClick={() => this.del(id)}>delete</div>
                                 </li>
                             )
+                        return null
                     })}
                 </ul>
             </div>
@@ -96,7 +97,6 @@ class Experiment extends React.Component {
 
     toggle() { this.setState({ isOn: !this.state.isOn }); }
     render() {
-        console.log(this.props)
         const { todoState, dispatch } = this.props;
         return (
             <div>
