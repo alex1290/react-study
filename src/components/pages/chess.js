@@ -339,8 +339,8 @@ class Game extends React.Component {
 
     backTracking = (step) => {
         this.setState({ nowStep: step })
-        if(step===0)
-        this.props.dispatch(action.resetChess());
+        if (step === 0)
+            this.props.dispatch(action.resetChess());
     }
 
     win = board => {
@@ -358,6 +358,18 @@ class Game extends React.Component {
         //滾卷軸
         let stepBoard = document.getElementsByClassName('stepBoard')[0]
         stepBoard.scrollTop = stepBoard.scrollHeight
+
+        console.log(this.props.chessState.blackIsNext)
+        let color = this.props.chessState.blackIsNext ? 'B' : 'W'
+        let el = [...document.getElementsByClassName('square')]
+        el.forEach(i => {
+            
+            i.style.cursor = 
+            (i.innerHTML && i.innerHTML[0] === color) || i.style.borderColor === 'rgb(255, 0, 0)'
+            ? 'pointer'
+            : 'default'
+            
+        })
     }
 
     componentWillUnmount() {
@@ -392,7 +404,7 @@ class Game extends React.Component {
                         let url = item ? require(`../../img/chess/${item}.jpg`) : null;
                         let style = {
                             backgroundColor: index % 2 === (col ? 0 : 1) ? '#FFCE9E' : '#D18B47',
-                            cursor: item && item[0] === color && !this.win(history[nowStep]) ? 'pointer' : 'auto',
+                            cursor: (item && item[0] === color && !this.win(history[nowStep])) ? 'pointer' : 'default',
                             backgroundImage: `url(${url})`
                         }
                         return (
