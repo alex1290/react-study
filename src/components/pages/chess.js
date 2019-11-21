@@ -339,6 +339,8 @@ class Game extends React.Component {
 
     backTracking = (step) => {
         this.setState({ nowStep: step })
+        if(step===0)
+        this.props.dispatch(action.resetChess());
     }
 
     win = board => {
