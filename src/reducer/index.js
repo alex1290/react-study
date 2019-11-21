@@ -76,6 +76,12 @@ const chess_reducer = (state = initialChessState, action) => {
                 stepNumber: state.stepNumber,
                 blackIsNext: state.blackIsNext
             }
+        case actionTypes.RESET_CHESS:
+            return {
+                history: state.history.splice(0,1),
+                stepNumber: 0,
+                blackIsNext: true
+            }
         default:
             return state
     }

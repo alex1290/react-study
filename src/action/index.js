@@ -15,10 +15,10 @@ export const removeTodo = id => {
 };
 
 export const toggleTodo = id => {
- return {
-     type: actionTypes.TOGGLE_TODO,
-     id
- }
+  return {
+    type: actionTypes.TOGGLE_TODO,
+    id
+  }
 }
 
 export const moveChess = (history, step) => {
@@ -33,5 +33,11 @@ export const upgradeChess = history => {
   return {
     type: actionTypes.UPGRADE_CHESS,
     history
+  }
+}
+
+export const resetChess = () => {
+  return {
+    type: actionTypes.RESET_CHESS
   }
 }

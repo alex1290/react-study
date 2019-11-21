@@ -1,0 +1,49 @@
+.singleItem{
+    display: flex;
+    background: #F4E2C9;
+    padding: 30px;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.singleItem li{
+    cursor: move;
+}
+.box1,.box2{
+    background: #fff;
+    color: #ccc;
+    font-size: 20px;
+    font-weight: 100;
+    position: relative;    
+    padding: 20px 10px;
+    box-sizing: border-box;
+}
+.box1::before,.box2::before{
+    position: absolute;
+    padding: 10px;
+    /* box-sizing: border-box; */
+    content: 'List A';
+    background-color: #FF7373;
+    color: white;
+    left: 0;
+    top: -20px;
+}
+.box1{
+    width: 30%;
+    text-align: left;
+}
+
+.box1 li{
+    padding: 10px 0;
+}
+.box2{
+    width: 200px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.box2 li {
+    background-color: #5F9EDF;
+    padding: 5px 8px;
+    color: white;
+    margin: 0 10px 10px;
+}

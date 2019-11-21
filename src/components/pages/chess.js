@@ -5,7 +5,7 @@ import * as action from '../../action/index'
 class Game extends React.Component {
     state = {
         selected: null,
-        nowStep: this.props.chessState.stepNumber,
+        nowStep: 0,
         upgrade: null,
         moved: []
     }
@@ -246,8 +246,8 @@ class Game extends React.Component {
                         KRbetween()
                     }
                     break;
-                default: 
-                return null
+                default:
+                    return null
             }
             if (movement) {
                 movement.forEach(([x, y]) => {
@@ -306,6 +306,8 @@ class Game extends React.Component {
 
         if (choose.style.borderColor === 'rgb(255, 0, 0)') {
             moved = moved.splice(0, nowStep)
+
+            console.log(moved)
             if ((piece === 'King' || piece === 'R') && target[0] === color) {
                 castling()
                 let rookName = (x === 7 || newCol === 7 ? 'R' : 'L') + color + 'R'
@@ -321,7 +323,7 @@ class Game extends React.Component {
                         moved[nowStep] = [...moved[nowStep - 1]]
                     }
                 } else {
-                    moved[nowStep] = nowStep === 0 ? [] : [...moved[nowStep - 1]]
+                    moved[nowStep] = nowStep - 1 < 0 ? [] : moved[nowStep - 1]
                 }
                 this.setState({ moved: moved })
                 move()
@@ -356,6 +358,10 @@ class Game extends React.Component {
         //滾卷軸
         let stepBoard = document.getElementsByClassName('stepBoard')[0]
         stepBoard.scrollTop = stepBoard.scrollHeight
+    }
+
+    componentWillUnmount() {
+        this.props.dispatch(action.resetChess());
     }
 
     render() {

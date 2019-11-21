@@ -1,29 +1,29 @@
-import  {Index, Experiment, Chess, Contact,Weather} from './pages';
+import { Index, Experiment, Chess, DragList, Weather } from './pages';
 
 const routes = [
     {
         path: '/',
         exact: true,
-        component : Index,
+        component: Index,
         name: '首頁'
     },
     {
         path: '/experiment',
-        component : Experiment,
+        component: Experiment,
         name: '實驗'
     },
     {
         path: '/chess',
-        component : Chess,
+        component: Chess,
         name: '西洋棋'
     },
     {
-        path: '/contact',
-        component : Contact,
-        name: '聯絡方式'
-    },{
+        path: '/draglist',
+        component: DragList,
+        name: '拖曳清單'
+    }, {
         path: '/weather',
-        component : Weather,
+        component: Weather,
         name: '天氣'
     }
 ];
