@@ -82,6 +82,8 @@ class Box extends React.Component {
                 style={style}
                 onMouseEnter={() => this.onMouseEnter()}
                 onMouseLeave={() => this.onMouseLeave()}
+                onDragEnter={()=>this.toggleColor()}
+                onDragLeave={()=>this.toggleColor()}
             >
                 {list.contain.map(item =>
                     <Item item={item} key={item} toggleColor={()=>this.toggleColor()}/>
@@ -104,8 +106,8 @@ class SingleItem extends React.Component {
             }
         ]
     }
-    dragStart() {
-
+    dragChange() {
+        
     }
     render() {
         const { list } = this.state;
