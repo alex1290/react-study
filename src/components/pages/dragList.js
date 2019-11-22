@@ -7,10 +7,31 @@ import './dragList.css';
 class Item extends React.Component {
     state = {
         drag: false,
-        position:[]
+        position: []
     }
-    
-
+    onDrag(e) {
+        e.preventDefault();
+        let x = e.clientX
+        let y = e.clientY
+        this.setState({ position: [x, y] })
+        console.log()
+    }
+    onDragStart(e) {
+        this.setState({ drag: true })
+    }
+    onDragEnd(e){
+        e.preventDefault();
+        this.setState({ drag: false })
+    }
+    onDragEnter(e){
+        this.props.toggleColor()
+    }
+    onDragLeave(e){
+        this.props.toggleColor()
+    }
+    onDrop (e){
+        console.log(e)
+    }
     render() {
         const { item } = this.props
         const { drag } = this.state
@@ -22,9 +43,12 @@ class Item extends React.Component {
                 className='item'
                 key={item}
                 style={drag ? dragStyle : {}}
-                onDragStart={()=>this.setState({ drag: true })}
+                onDragStart={(e) => this.onDragStart(e)}
                 onDrag={(e) => this.onDrag(e)}
-                onDragEnd ={()=>this.setState({ drag: false })}
+                onDragEnter={() => this.onDragEnter()}
+                onDragLeave={(e) => this.onDragLeave(e)}
+                onDragEnd={(e) => this.onDragEnd(e)}
+                onDrop={(e) => this.onDrop(e)}
                 draggable="true"
             > {item}
             </li>
@@ -34,7 +58,8 @@ class Item extends React.Component {
 
 class Box extends React.Component {
     state = {
-        hover: false
+        hover: false,
+        enter: false
     }
     onMouseEnter() {
         this.setState({ hover: true })
@@ -43,16 +68,23 @@ class Box extends React.Component {
     onMouseLeave() {
         this.setState({ hover: false })
     }
+    toggleColor(){
+        this.setState({enter:!this.state.enter})
+    }
     render() {
         const { list } = this.props
+        let style = {
+            backgroundColor: this.state.enter ? '#f00' : ''
+        }
         return (
-            <ul
+            <ul draggable='true' 
                 className={list.name}
+                style={style}
                 onMouseEnter={() => this.onMouseEnter()}
                 onMouseLeave={() => this.onMouseLeave()}
             >
                 {list.contain.map(item =>
-                    <Item item={item} key={item}/>
+                    <Item item={item} key={item} toggleColor={()=>this.toggleColor()}/>
                 )}
             </ul>
         )
@@ -72,12 +104,8 @@ class SingleItem extends React.Component {
             }
         ]
     }
-    onDrag(e) {
-        e.preventDefault();
-        let x = e.clientX
-        let y = e.clientY
-        this.setState({position:[x,y]})
-        console.log()
+    dragStart() {
+
     }
     render() {
         const { list } = this.state;
