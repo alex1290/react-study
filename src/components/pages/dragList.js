@@ -6,11 +6,10 @@ import './dragList.css';
 
 class Item extends React.Component {
     state = {
-        drag: false
+        drag: false,
+        position:[]
     }
-    onDrag() {
-        this.setState({ drag: true })
-    }
+    
 
     render() {
         const { item } = this.props
@@ -23,7 +22,10 @@ class Item extends React.Component {
                 className='item'
                 key={item}
                 style={drag ? dragStyle : {}}
-                onDrag={() => this.onDrag()}
+                onDragStart={()=>this.setState({ drag: true })}
+                onDrag={(e) => this.onDrag(e)}
+                onDragEnd ={()=>this.setState({ drag: false })}
+                draggable="true"
             > {item}
             </li>
         )
@@ -70,8 +72,12 @@ class SingleItem extends React.Component {
             }
         ]
     }
-    dragStart() {
-
+    onDrag(e) {
+        e.preventDefault();
+        let x = e.clientX
+        let y = e.clientY
+        this.setState({position:[x,y]})
+        console.log()
     }
     render() {
         const { list } = this.state;

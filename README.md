@@ -70,15 +70,21 @@
 區分為三種時期,建立、更新、移除，時間依序排列如下
 
    1. Mounting
-       * componentWillMount() 
+       * getDerivedStateFromProps() new!
+       * render
        * componentDidMount() 
    2. Updating
-       * componentWillReceiveProps()
-       * shouldComponentUpdate()
-       * componentWillUpdate()
+       * getDerivedStateFromProps() new!
+       * shouldComponentUpdate() new!
+       * render
+       * getSnapshotBeforeUpdate new !
        * componentDidUpdate()
    3. Unmoubting
        * componentWillUnmount()
+
+    ### Errors
+       * getDerivedStateFromError(error)
+       * componentDidCatch(error, info)
 
 *Ajax 非同步請在 componentDidMount()執行*
 
