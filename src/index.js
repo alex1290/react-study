@@ -7,7 +7,7 @@ import rootReducer from './reducer/index'
 import Header from './components/Header';
 import routes from './components/routes';
 import './index.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 import * as serviceWorker from './serviceWorker';
 

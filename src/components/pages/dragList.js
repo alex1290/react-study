@@ -1,7 +1,7 @@
 import React from 'react';
 import './dragList.css';
-// import { connect } from "react-redux";
-// import * as action from '../../action/index'
+import { connect } from "react-redux";
+import * as action from '../../action/index'
 
 
 class Item extends React.Component {
@@ -14,23 +14,14 @@ class Item extends React.Component {
         let x = e.clientX
         let y = e.clientY
         this.setState({ position: [x, y] })
-        console.log()
     }
     onDragStart(e) {
         this.setState({ drag: true })
+        e.dataTransfer.setData('text/plain', this.props.item)
     }
-    onDragEnd(e){
+    onDragEnd(e) {
         e.preventDefault();
         this.setState({ drag: false })
-    }
-    onDragEnter(e){
-        this.props.toggleColor()
-    }
-    onDragLeave(e){
-        this.props.toggleColor()
-    }
-    onDrop (e){
-        console.log(e)
     }
     render() {
         const { item } = this.props
@@ -45,10 +36,7 @@ class Item extends React.Component {
                 style={drag ? dragStyle : {}}
                 onDragStart={(e) => this.onDragStart(e)}
                 onDrag={(e) => this.onDrag(e)}
-                onDragEnter={() => this.onDragEnter()}
-                onDragLeave={(e) => this.onDragLeave(e)}
                 onDragEnd={(e) => this.onDragEnd(e)}
-                onDrop={(e) => this.onDrop(e)}
                 draggable="true"
             > {item}
             </li>
@@ -58,36 +46,54 @@ class Item extends React.Component {
 
 class Box extends React.Component {
     state = {
+        name: this.props.box,
         hover: false,
-        enter: false
+        enter: false,
     }
-    onMouseEnter() {
-        this.setState({ hover: true })
-        console.log('in')
+    toggleColor() {
+        this.setState({ enter: !this.state.enter })
     }
-    onMouseLeave() {
-        this.setState({ hover: false })
+    onDrop(e) {
+        let draggingItem = e.dataTransfer.getData('text/plain')
+        let { dispatch, box } = this.props
+        dispatch(action.moveDND(draggingItem, box))
+        this.setState({
+            enter: false,
+            draggingItem: ''
+        })
     }
-    toggleColor(){
-        this.setState({enter:!this.state.enter})
+    onDragOver(e) {
+        e.preventDefault()
+        let x = e.clientX
+        let y = e.clientY
+        let el = document.elementFromPoint(x,y)
+        console.log(el.className,el.offsetTop)
     }
     render() {
-        const { list } = this.props
+        const { list, box } = this.props
         let style = {
             backgroundColor: this.state.enter ? '#f00' : ''
         }
         return (
-            <ul draggable='true' 
-                className={list.name}
+            <ul draggable='true'
+                droppable='true'
+                className={box}
                 style={style}
-                onMouseEnter={() => this.onMouseEnter()}
-                onMouseLeave={() => this.onMouseLeave()}
-                onDragEnter={()=>this.toggleColor()}
-                onDragLeave={()=>this.toggleColor()}
+                onDragEnter={() => this.toggleColor()}
+                onDragLeave={() => this.toggleColor()}
+                onDragOver={(e) => this.onDragOver(e)}
+                onDrop={(e) => this.onDrop(e)}
             >
-                {list.contain.map(item =>
-                    <Item item={item} key={item} toggleColor={()=>this.toggleColor()}/>
-                )}
+                {list.map(item => {
+                    if (box === item.status)
+                        return (
+                            <Item
+                                item={item.name}
+                                key={item.name}
+                                toggleColor={() => this.toggleColor()}
+                            />
+                        )
+                })}
             </ul>
         )
     }
@@ -95,26 +101,15 @@ class Box extends React.Component {
 
 class SingleItem extends React.Component {
     state = {
-        list: [
-            {
-                name: 'box1',
-                contain: ['item1', 'item2', 'item3', 'item4']
-            },
-            {
-                name: 'box2',
-                contain: ['item5', 'item6', 'item7']
-            }
-        ]
-    }
-    dragChange() {
-        
+        draggingItem: ''
     }
     render() {
-        const { list } = this.state;
+        const { list, box } = this.props.DNDState;
+        const { dispatch } = this.props
         return (
             <div className="singleItem">
-                {list.map(list =>
-                    <Box list={list} key={list.name} />
+                {box.map(box =>
+                    <Box list={list} key={box} box={box} dispatch={dispatch} />
                 )}
             </div>
         )
@@ -129,10 +124,11 @@ class SingleItem extends React.Component {
 
 class DragList extends React.Component {
     render() {
+        const { DNDState, dispatch } = this.props
         return (
             <div>
                 <h1>Drag and Drop</h1>
-                <SingleItem />
+                <SingleItem DNDState={DNDState} dispatch={dispatch} />
             </div>
         )
     }
@@ -140,4 +136,12 @@ class DragList extends React.Component {
 
 const detectPosition = () => { }
 
-export default DragList;
+const mapStateToProps = state =>
+    ({
+        DNDState: state.DNDAction
+    })
+
+
+export default connect(
+    mapStateToProps
+)(DragList);

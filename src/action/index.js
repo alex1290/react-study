@@ -41,3 +41,11 @@ export const resetChess = () => {
     type: actionTypes.RESET_CHESS
   }
 }
+
+export const moveDND = (name,target) => {
+  return {
+    type: actionTypes.MOVE_DND,
+    name,
+    target
+  }
+}

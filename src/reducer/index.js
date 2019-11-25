@@ -52,7 +52,7 @@ const todo_reducer = (state = initialTodoState, action) => {
 }
 
 let initialChessState = {
-    history: [[...dataState.getIn(['chessState', 'history',0])]],
+    history: [[...dataState.getIn(['chessState', 'history', 0])]],
     stepNumber: dataState.getIn(['chessState', 'stepNumber']),
     blackIsNext: dataState.getIn(['chessState', 'blackIsNext'])
 }
@@ -61,14 +61,14 @@ const chess_reducer = (state = initialChessState, action) => {
     switch (action.type) {
         case actionTypes.MOVE_CHESS:
             let move = action.history;
-            state.history = state.history.splice(0,action.step)
+            state.history = state.history.splice(0, action.step)
             state.history.push(move);
             return {
                 history: state.history,
                 stepNumber: action.step,
                 blackIsNext: action.step % 2 === 0
             }
-            
+
         case actionTypes.UPGRADE_CHESS:
             let { history } = action;
             return {
@@ -78,7 +78,7 @@ const chess_reducer = (state = initialChessState, action) => {
             }
         case actionTypes.RESET_CHESS:
             return {
-                history: state.history.splice(0,1),
+                history: state.history.splice(0, 1),
                 stepNumber: 0,
                 blackIsNext: true
             }
@@ -86,9 +86,36 @@ const chess_reducer = (state = initialChessState, action) => {
             return state
     }
 }
+
+let initialDNDState = {
+    list: LtoA(dataState.getIn(['DNDState', 'list'])),
+    box: [...dataState.getIn(['DNDState', 'box'])]
+}
+const DND_reducer = (state = initialDNDState, action) => {
+    switch (action.type) {
+
+        case actionTypes.MOVE_DND:
+            const { name, target } = action
+            return {
+                list: state.list.map(i => {
+                    console.log(name)
+                    if (name === i.name) {
+                        i['status'] = target
+                        
+                    }
+                    return i
+                }),
+                box: state.box
+            }
+        default:
+            return state
+    }
+}
+
 const rootReducer = combineReducers({
     todoAction: todo_reducer,
     chessAction: chess_reducer,
+    DNDAction: DND_reducer
 });
 
 export default rootReducer;
