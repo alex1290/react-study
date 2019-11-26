@@ -73,7 +73,7 @@ export const dataState = Immutable.fromJS({
                 status: 'box2'
             },
         ],
-        box: ['box1', 'box2']
+        box: ['box1', 'box2','box3']
     }
 
 

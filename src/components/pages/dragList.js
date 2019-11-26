@@ -89,16 +89,18 @@ class Box extends React.Component {
         let style = {
             backgroundColor: this.state.enter ? '#f00' : ''
         }
+        let className = box + ' box'
         return (
             <ul
                 droppable='true'
-                className={box}
+                className={className}
                 style={{}}
                 onDragEnter={(e) => this.onDragEnter(e)}
                 onDragLeave={(e) => this.onDragEnter(e)}
                 onDragOver={(e) => this.onDragOver(e)}
                 onDrop={(e) => this.onDrop(e)}
             >
+                <h3 className='title'>{box}</h3>
                 {list.map((item, index) => {
                     if (box === item.status || item.status === 'tmp')
                         return (

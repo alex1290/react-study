@@ -9,7 +9,7 @@
 .singleItem li{
     cursor: move;
 }
-.box1,.box2{
+.box{
     background: #fff;
     color: #ccc;
     font-size: 20px;
@@ -17,16 +17,20 @@
     position: relative;    
     padding: 20px 10px;
     box-sizing: border-box;
+    min-width: 20%;
+    min-height: 100px;
 }
-.box1::before,.box2::before{
+.title{
     position: absolute;
-    padding: 10px;
-    /* box-sizing: border-box; */
-    content: 'List A';
+    padding: 5px;
+    box-sizing: border-box;
     background-color: #FF7373;
     color: white;
-    left: 0;
+    left: -20px;
     top: -20px;
+}
+.item,.tmp{
+    height: 25px;
 }
 .box1{
     width: 30%;
