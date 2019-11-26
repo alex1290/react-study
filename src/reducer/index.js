@@ -93,15 +93,54 @@ let initialDNDState = {
 }
 const DND_reducer = (state = initialDNDState, action) => {
     switch (action.type) {
+        case actionTypes.START_DND:
+            let tmp = {
+                id: 'tmp',
+                name: action.name,
+                status: 'tmp'
+            }
+            state.list.forEach((i,n)=>{
+                if(i.status==='tmp'){
+                    state.list.splice(n,1)
+                }
+            })
+            state.list.splice(action.index, 0, tmp)
+            console.log(state.list)
+            return {
+                list: state.list,
+                box: state.box
+            }
+        case actionTypes.DRAGGING_DND:
+            const { index } = action
+            let draggingItem, draggingItemIndex;
+            state.list.forEach((i, n) => {
+                if (i.status === 'tmp') {
+                    draggingItem = i
+                    draggingItemIndex = n
+                }
+            })
+            state.list.splice(draggingItemIndex, 1)
+            state.list.splice(index, 0, draggingItem)
 
+            return {
+                list: state.list,
+                box: state.box
+            }
         case actionTypes.MOVE_DND:
             const { name, target } = action
+            let item, itemIndex;
+            state.list.forEach((i, n) => {
+                if (i.name === name && i.status !== 'tmp') {
+                    item = i
+                    itemIndex = n
+                }
+            })
+            state.list.splice(itemIndex, 1)
             return {
                 list: state.list.map(i => {
-                    console.log(name)
-                    if (name === i.name) {
-                        i['status'] = target
-                        
+                    if (i.status === 'tmp') {
+                        i = item
+                        i.status = target
                     }
                     return i
                 }),

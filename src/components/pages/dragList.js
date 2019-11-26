@@ -16,29 +16,37 @@ class Item extends React.Component {
         this.setState({ position: [x, y] })
     }
     onDragStart(e) {
+        let { item, dispatch, index } = this.props
         this.setState({ drag: true })
-        e.dataTransfer.setData('text/plain', this.props.item)
+        dispatch(action.startDND(item.name, index))
+        e.dataTransfer.setData('text/plain', item.name)
     }
     onDragEnd(e) {
         e.preventDefault();
         this.setState({ drag: false })
     }
+    onDragOver() {
+        const { dispatch, index } = this.props
+        dispatch(action.draggingDND(index))
+    }
     render() {
-        const { item } = this.props
+        const { item, enter, dragging } = this.props
         const { drag } = this.state
         const dragStyle = {
-            opacity: '0.6'
+            opacity: '0.6',
+            border:'1px solid #000'
         }
         return (
             <li
-                className='item'
-                key={item}
-                style={drag ? dragStyle : {}}
+                className={item.status === 'tmp' ? 'tmp' : 'item'}
+                key={item.name}
+                style={drag ? dragStyle : item.status === 'tmp' && !enter ? { display: 'none' } : {}}
                 onDragStart={(e) => this.onDragStart(e)}
                 onDrag={(e) => this.onDrag(e)}
                 onDragEnd={(e) => this.onDragEnd(e)}
+                onDragOver={() => this.onDragOver()}
                 draggable="true"
-            > {item}
+            > {item.name}
             </li>
         )
     }
@@ -49,9 +57,16 @@ class Box extends React.Component {
         name: this.props.box,
         hover: false,
         enter: false,
+        dragging: false
     }
-    toggleColor() {
+    draggingItem(item) {
+        this.setState({ dragging: item })
+    }
+    onDragEnter(e) {
         this.setState({ enter: !this.state.enter })
+    }
+    onDragLeave(e) {
+        this.setState({ enter: false })
     }
     onDrop(e) {
         let draggingItem = e.dataTransfer.getData('text/plain')
@@ -59,37 +74,43 @@ class Box extends React.Component {
         dispatch(action.moveDND(draggingItem, box))
         this.setState({
             enter: false,
-            draggingItem: ''
+            dragging:false
         })
     }
     onDragOver(e) {
         e.preventDefault()
         let x = e.clientX
         let y = e.clientY
-        let el = document.elementFromPoint(x,y)
-        console.log(el.className,el.offsetTop)
+        let el = document.elementFromPoint(x, y)
     }
     render() {
-        const { list, box } = this.props
+        const { list, box, dispatch } = this.props
+        const { enter, name, dragging } = this.state
         let style = {
             backgroundColor: this.state.enter ? '#f00' : ''
         }
         return (
-            <ul draggable='true'
+            <ul
                 droppable='true'
                 className={box}
-                style={style}
-                onDragEnter={() => this.toggleColor()}
-                onDragLeave={() => this.toggleColor()}
+                style={{}}
+                onDragEnter={(e) => this.onDragEnter(e)}
+                onDragLeave={(e) => this.onDragEnter(e)}
                 onDragOver={(e) => this.onDragOver(e)}
                 onDrop={(e) => this.onDrop(e)}
             >
-                {list.map(item => {
-                    if (box === item.status)
+                {list.map((item, index) => {
+                    if (box === item.status || item.status === 'tmp')
                         return (
                             <Item
-                                item={item.name}
-                                key={item.name}
+                                item={item}
+                                key={item.id}
+                                enter={enter}
+                                dragging={dragging}
+                                box={name}
+                                index={index}
+                                dispatch={dispatch}
+                                draggingItem={() => this.draggingItem()}
                                 toggleColor={() => this.toggleColor()}
                             />
                         )

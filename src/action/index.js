@@ -42,6 +42,21 @@ export const resetChess = () => {
   }
 }
 
+export const startDND = (name, index) => {
+  return {
+    type: actionTypes.START_DND,
+    name,
+    index
+  }
+}
+
+export const draggingDND = (index) => {
+  return {
+    type: actionTypes.DRAGGING_DND,
+    index
+  }
+}
+
 export const moveDND = (name,target) => {
   return {
     type: actionTypes.MOVE_DND,
@@ -49,3 +64,4 @@ export const moveDND = (name,target) => {
     target
   }
 }
+
