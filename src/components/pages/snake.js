@@ -22,10 +22,38 @@ class Snake extends React.Component {
         direction: 'Right',
         status: 'Start',
         food: '',
+        time: 200
     }
+
+    nextPosition([x, y], direction) {
+        switch (direction) {
+            case 'Right':
+                x += 2
+                break;
+            case 'Left':
+                x -= 2
+                break;
+            case 'Up':
+                y -= 2
+                break;
+            case 'Down':
+                y += 2
+                break;
+            default:
+        }
+        return [x, y]
+    }
+
+    hit([x, y]) {
+        const { snake } = this.props.snakeState
+        return snake.filter(i => i[0] === x && i[1] === y)
+    }
+
     keyDown(e) {
+        const { snake } = this.props.snakeState
         let code = e.keyCode
-        let { direction } = this.state
+        let { direction, status } = this.state
+        let reverse = code < 39 ? code + 2 : code - 2
         let Direction = (code) => {
             switch (code) {
                 case 37:
@@ -40,20 +68,23 @@ class Snake extends React.Component {
                     return direction
             }
         }
+        let [x, y] = this.nextPosition(snake[snake.length - 1], Direction(code))
         if (code === 32) {
             this.changeStatus()
-            return
-        }
-        if (this.state.status === 'Playing')
+        } else if (status === 'Playing' && direction !== Direction(reverse) && this.hit([x, y]).length === 0) {
             this.setState({ direction: Direction(code) })
+        }
     }
 
     setFood() {
         let x = Math.floor(Math.random() * 49) * 2
         let y = Math.floor(Math.random() * 49) * 2
         let food = [x, y]
-        console.log(food)
-        this.setState({ food: food })
+        let { time } = this.state
+        this.setState({
+            food,
+            time: time * 0.9
+        })
     }
 
     changeStatus() {
@@ -66,69 +97,51 @@ class Snake extends React.Component {
         } else if (status === 'Pause') {
             this.setState({ status: 'Playing' })
         } else if (status === 'Game Over') {
+            this.setFood()
             this.setState({
                 status: 'Playing',
-                direction: 'Right'
+                direction: 'Right',
+                time: 200
             })
             dispatch(action.resetSnake())
         }
     }
 
     move() {
-        const { status, food, direction } = this.state
+        const { status, food, time, direction } = this.state
         const { snake } = this.props.snakeState
-        let moving = window.setTimeout(() => {
-            this.move()
-        }, 200 - snake.length * 10);
-        
+        this.moving = window.setTimeout(() => this.move(), time);
         if (status === 'Playing') {
             const { dispatch } = this.props
-            let [x, y] = this.props.snakeState.snake[this.props.snakeState.snake.length - 1]
-            switch (direction) {
-                case 'Right':
-                    x += 2
-                    break;
-                case 'Left':
-                    x -= 2
-                    break;
-                case 'Up':
-                    y -= 2
-                    break;
-                case 'Down':
-                    y += 2
-                    break;
-            }
-            if (x < 0 || x > 98 || y < 0 || y > 98) {
+            let [x, y] = this.nextPosition(snake[snake.length - 1], direction)
+            if (x < 0 || x > 98 || y < 0 || y > 98 || this.hit([x, y])[0]) {
                 this.setState({ status: 'Game Over' })
             } else {
-                if (food[0] == x && food[1] == y) {
+                if (food[0] === x && food[1] === y) {
                     this.setFood()
                     dispatch(action.addSnake([x, y]))
+                    this.setState({
+                        time: time * 0.9
+                    })
+                    return
                 }
                 dispatch(action.moveSnake([x, y]))
             }
         }
     }
-    
+
     clear() {
-        let moving;
-        clearTimeout(moving)
+        clearTimeout(this.moving)
     }
 
     componentDidMount() {
         window.onkeydown = (e) => {
             e.preventDefault()
             this.keyDown(e)
-
         }
         this.setFood()
         this.clear()
         this.move()
-    }
-
-    componentDidUpdate() {
-        const { status, food } = this.state
-
     }
 
     componentWillUnmount() {
@@ -151,13 +164,18 @@ class Snake extends React.Component {
                         <div className='foodDot' style={{ top: food[1] + '%', left: food[0] + '%' }}></div>
                     </div>
                     <div className="snakeControl">
-                        <h2>{status === 'start' ? 'Press Start' : status === 'Game Over' ? status : 'Score : ' + (snake.length - 2)}</h2>
+                        <h2>{
+                            status === 'Start'
+                                ? 'Press Start'
+                                : status === 'Game Over'
+                                    ? status + ' Score : ' + (snake.length - 2)
+                                    : 'Score : ' + (snake.length - 2)}</h2>
                         <div
                             className="startBtn"
                             onClick={() => this.changeStatus()}
                         > {status === 'Start' ? status : status !== 'Pause' ? status === 'Game Over' ? 'Restart ' : 'Pause' : 'Continue'}
                         </div>
-                        <p>Press "Space" to start or stop.</p>
+                        <p>Press the space bar to start or stop.</p>
                     </div>
                 </div>
             </div>)

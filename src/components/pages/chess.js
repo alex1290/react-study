@@ -358,9 +358,7 @@ class Game extends React.Component {
         //滾卷軸
         let stepBoard = document.getElementsByClassName('stepBoard')[0]
         stepBoard.scrollTop = stepBoard.scrollHeight
-
-        console.log(this.props.chessState.blackIsNext)
-        let color = this.props.chessState.blackIsNext ? 'B' : 'W'
+        let color = this.state.nowStep % 2 === 0 ? 'B' : 'W'
         let el = [...document.getElementsByClassName('square')]
         el.forEach(i => {
             
