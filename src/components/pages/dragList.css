@@ -43,6 +43,7 @@
 .box2{
     width: 200px;
     display: flex;
+    justify-content: space-around;
     flex-wrap: wrap;
 }
 .box2 li {

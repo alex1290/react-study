@@ -42,6 +42,25 @@ export const resetChess = () => {
   }
 }
 
+export const moveSnake = (position) => {
+  return {
+    type: actionTypes.MOVE_SNAKE,
+    position
+  }
+}
+
+export const addSnake = (position) => {
+  return {
+    type: actionTypes.ADD_SNAKE,
+    position
+  }
+}
+export const resetSnake = () => {
+  return {
+    type: actionTypes.RESET_SNAKE
+  }
+}
+
 export const startDND = (name, index) => {
   return {
     type: actionTypes.START_DND,

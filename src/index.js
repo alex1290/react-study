@@ -19,14 +19,27 @@ class App extends React.Component {
             <Provider store={store}>
                 <Header />
                 <div className="container">
-                    {routes.map((route,i)=>{
-                        const {path,exact} = route;
-                        return <Route 
-                        key={i}
-                        exact={exact}
-                        path={path}
-                        render={()=>(<route.component routes={routes} />)}
-                        />
+                    {routes.map((route, i) => {
+                        const { path, exact } = route;
+                        if (route.list) {
+                            return route.list.map((child, index) => {
+                                return (
+                                    <Route
+                                        key={i+''+index}
+                                        path={child.path}
+                                        render={() => (<child.component routes={child} />)}
+                                    />)
+                            })
+                        } else {
+                            return (
+                                <Route
+                                    key={i}
+                                    exact={exact}
+                                    path={path}
+                                    render={() => (<route.component routes={routes} />)}
+                                />)
+                        }
+
                     })}
                 </div>
             </Provider>

@@ -1,4 +1,4 @@
-import { Index, Experiment, Chess, DragList, Weather } from './pages';
+import { Index, Experiment, Chess, DragList, Weather, Snake } from './pages';
 
 const routes = [
     {
@@ -13,15 +13,29 @@ const routes = [
         name: '實驗'
     },
     {
-        path: '/chess',
-        component: Chess,
-        name: '西洋棋'
+        path: '/game',
+        exact: true,
+        // component: null,
+        name: '遊戲',
+        list: [
+            {
+                path: '/chess',
+                component: Chess,
+                name: '西洋棋'
+            },
+            {
+                path: '/snake',
+                component: Snake,
+                name: '貪吃蛇'
+            },
+        ]
     },
     {
         path: '/draglist',
         component: DragList,
         name: '拖曳清單'
-    }, {
+    },
+    {
         path: '/weather',
         component: Weather,
         name: '天氣'

@@ -20,16 +20,35 @@ class Header extends React.Component {
                 </Link>
                 <ul className="menu">
                     {routes.map((route, i) => {
-                        if (route.name === '首頁') { return null;}
-                        return (
-                            <li className="menuItem" key={i}>
-                                <Link
-                                    className="menuLink"
-                                    to={route.path}>
-                                    {route.name}
-                                </Link>
-                            </li>
-                        )
+                        if (route.name === '首頁') { return null; }
+                        if (route.name === '遊戲') {
+                            return (
+                                <li className="menuItem dropList" key={i}>
+                                    <span className="menuLink">{route.name}</span>
+                                    <ul className="clildList">
+                                        {route.list.map((child, index) =>
+                                            <li key={index} className="menuItem">
+                                                <Link
+                                                    className="menuLink"
+                                                    to={child.path}>
+                                                    {child.name}
+                                                </Link>
+                                            </li>
+                                        )}
+                                    </ul>
+                                </li>
+                            )
+                        } else {
+                            return (
+                                <li className="menuItem" key={i}>
+                                    <Link
+                                        className="menuLink"
+                                        to={route.path}>
+                                        {route.name}
+                                    </Link>
+                                </li>
+                            )
+                        }
                     })}
                 </ul>
             </header>

@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 import * as actionTypes from "../action/type";
 import dataState from '../constants/model';
+import { stat } from "fs";
 
 function LtoA(list) {
     let init = [...list]
@@ -87,6 +88,33 @@ const chess_reducer = (state = initialChessState, action) => {
     }
 }
 
+const initialSnakeState = {
+    snake: [[...dataState.getIn(['snakeState', 'snake', 0])], [...dataState.getIn(['snakeState', 'snake', 1])]],
+}
+const snake_reducer = (state = initialSnakeState, action) => {
+    const { snake } = state
+    switch (action.type) {
+        case actionTypes.MOVE_SNAKE:
+            snake.push(action.position)
+            snake.shift()
+            return {
+                snake: snake
+            }
+        case actionTypes.RESET_SNAKE:
+            return {
+                snake: [[0, 0], [2, 0]]
+            }
+        case actionTypes.ADD_SNAKE:
+            snake.push(action.position)
+            return {
+                snake: snake
+            }
+        default:
+            return state
+    }
+}
+
+
 let initialDNDState = {
     list: LtoA(dataState.getIn(['DNDState', 'list'])),
     box: [...dataState.getIn(['DNDState', 'box'])]
@@ -99,9 +127,9 @@ const DND_reducer = (state = initialDNDState, action) => {
                 name: action.name,
                 status: 'tmp'
             }
-            state.list.forEach((i,n)=>{
-                if(i.status==='tmp'){
-                    state.list.splice(n,1)
+            state.list.forEach((i, n) => {
+                if (i.status === 'tmp') {
+                    state.list.splice(n, 1)
                 }
             })
             state.list.splice(action.index, 0, tmp)
@@ -154,7 +182,9 @@ const DND_reducer = (state = initialDNDState, action) => {
 const rootReducer = combineReducers({
     todoAction: todo_reducer,
     chessAction: chess_reducer,
-    DNDAction: DND_reducer
+    snakeAction: snake_reducer,
+    DNDAction: DND_reducer,
+
 });
 
 export default rootReducer;

@@ -35,6 +35,9 @@ export const dataState = Immutable.fromJS({
         stepNumber: 0,
         blackIsNext: true,
     },
+    snakeState: {
+        snake: [[0, 0], [2, 0]]
+    },
     DNDState: {
         list: [
             {
@@ -73,7 +76,7 @@ export const dataState = Immutable.fromJS({
                 status: 'box2'
             },
         ],
-        box: ['box1', 'box2','box3']
+        box: ['box1', 'box2', 'box3']
     }
 
 
