@@ -157,6 +157,7 @@ class Snake extends React.Component {
                             onClick={() => this.changeStatus()}
                         > {status === 'Start' ? status : status !== 'Pause' ? status === 'Game Over' ? 'Restart ' : 'Pause' : 'Continue'}
                         </div>
+                        <p>Press "Space" to start or stop.</p>
                     </div>
                 </div>
             </div>)
