@@ -77,8 +77,8 @@ class Snake extends React.Component {
     }
 
     setFood() {
-        let x = Math.floor(Math.random() * 49) * 2
-        let y = Math.floor(Math.random() * 49) * 2
+        let x = Math.floor(Math.random() * 49 + 1 ) * 2 
+        let y = Math.floor(Math.random() * 49 + 1 ) * 2 
         let food = [x, y]
         let { time } = this.state
         this.setState({
@@ -136,7 +136,9 @@ class Snake extends React.Component {
 
     componentDidMount() {
         window.onkeydown = (e) => {
-            e.preventDefault()
+            if(this.state.status === 'Playing' || e.keyCode === 32){
+                e.preventDefault()
+            }
             this.keyDown(e)
         }
         this.setFood()
@@ -147,7 +149,9 @@ class Snake extends React.Component {
     componentWillUnmount() {
         window.onkeydown = ''
         this.clear()
+        this.props.dispatch(action.resetSnake())
     }
+
     render() {
         const { snake } = this.props.snakeState
         const { status, food } = this.state
@@ -173,7 +177,15 @@ class Snake extends React.Component {
                         <div
                             className="startBtn"
                             onClick={() => this.changeStatus()}
-                        > {status === 'Start' ? status : status !== 'Pause' ? status === 'Game Over' ? 'Restart ' : 'Pause' : 'Continue'}
+                        > {
+                                status === 'Start'
+                                    ? status
+                                    : status !== 'Pause'
+                                        ? status === 'Game Over'
+                                            ? 'Restart '
+                                            : 'Pause'
+                                        : 'Continue'
+                            }
                         </div>
                         <p>Press the space bar to start or stop.</p>
                     </div>

@@ -118,27 +118,3 @@ const mapStateToProps = state =>
 export default connect(
     mapStateToProps
 )(Experiment);
-
-function test(){
-    return fetch(
-        "https://fy1et92nuj.execute-api.us-west-2.amazonaws.com/prod/DynamoDBManager",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            email:'wicanvasg@gmail.com',
-            password:'Wicanvas23'
-          })
-        }
-      ).then(res => {
-        console.log(res);
-        if (res.token != null) {
-          this.setToken(res.token);
-          this.setProfile(res.profile);
-        }
-        return Promise.resolve(res);
-      });
-}
-console.log(test)

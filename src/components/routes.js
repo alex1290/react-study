@@ -1,4 +1,4 @@
-import { Index, Experiment, Chess, DragList, Weather, Snake } from './pages';
+import { Index, Experiment, Chess, DragList, Weather, Snake, Ptt } from './pages';
 
 const routes = [
     {
@@ -39,6 +39,11 @@ const routes = [
         path: '/weather',
         component: Weather,
         name: '天氣'
+    },
+    {
+        path: '/ptt',
+        component: Ptt,
+        name: 'PTT'
     }
 ];
 export default routes;

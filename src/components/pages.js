@@ -4,9 +4,9 @@ import Experiment from './pages/experiment'
 import Chess from './pages/chess'
 import DragList from './pages/dragList'
 import Snake from './pages/snake'
-
+import Ptt from './pages/ptt'
 const Index = () => {
     return <h1>index</h1>
 }
 
-export { Index, Experiment, Chess, DragList, Weather, Snake };
+export { Index, Experiment, Chess, DragList, Weather, Snake, Ptt };
