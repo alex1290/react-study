@@ -11,7 +11,7 @@ class Ptt extends React.Component {
                 url: 'https://www.ptt.cc/bbs/movie/index.html',
                 method: 'GET'
             }, function (error, response, body) {
-                console.log(error);
+                // console.log(error);
                 
                 if (error || !body) {
                     return;
