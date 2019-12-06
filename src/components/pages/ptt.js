@@ -3,26 +3,16 @@ import React from 'react';
 class Ptt extends React.Component {
 
     crawler() {
-        const request = require("request");
-        const cheerio = require("cheerio");
-        const fs = require("fs");
-        const ptt = () => {
-            request({
-                url: 'https://www.ptt.cc/bbs/movie/index.html',
-                method: 'GET'
-            }, function (error, response, body) {
-                // console.log(error);
-                
-                if (error || !body) {
-                    return;
+        fetch('http://localhost:3001/pttinfo')
+            .then(res => res.json())
+            .then(
+                success => {
+                    console.log(success);
+                },
+                fail => {
+                    console.log(fail);
                 }
-                const $ = cheerio.load(body);
-                const result = [];
-                console.log($);
-                
-            })
-        }
-        ptt()
+            )
     }
 
     componentDidMount() {
