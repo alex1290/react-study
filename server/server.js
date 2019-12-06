@@ -11,9 +11,7 @@ const app = express();
 const port = 3001;
 app.use(bodyParser.json());
 app.use(cors(corsOptions))
-// var index = require('../src/index')
 
-// app.use('/index',index)
 app.get('/', function (req, res) {
   const ptt = () => {
     request({
@@ -43,7 +41,8 @@ app.get('/', function (req, res) {
       console.log(1);
     })
   }
-  ptt()
+  // ptt()
+  res.send('hello world');
   // setInterval(ptt, 1000);
 })
 

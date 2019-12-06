@@ -3,7 +3,7 @@ import React from 'react';
 class Ptt extends React.Component {
 
     crawler() {
-        fetch('http://localhost:3001/pttinfo')
+        fetch('http://54.92.97.64')
             .then(res => res.json())
             .then(
                 success => {
