@@ -14,7 +14,7 @@ app.use(cors(corsOptions))
 // var index = require('../src/index')
 
 // app.use('/index',index)
-app.get('/pttinfo', function (req, res) {
+app.get('/', function (req, res) {
   const ptt = () => {
     request({
       url: 'https://www.ptt.cc/bbs/movie/index.html',
