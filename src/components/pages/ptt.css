@@ -1,0 +1,61 @@
+.pttBoard{
+    background-color: #000;
+    color: #888;
+    text-align: left;
+    font-family: serif;
+}
+.pttBoard h1 {
+    color: white;
+}
+.pttItem{
+    position: relative;
+    margin: 1ex 0;
+    padding: 0.5ex 0;
+    background-color: #111;
+}
+.pttPush{
+    width: 4ex;
+    padding: 0.5ex 0 0 0;
+    position: absolute;
+    left: 0;
+    top:0.5ex;
+    text-align: right;
+}
+.pttTitle{
+    padding: 0.5ex 0 0 0;
+    margin: 0 5ex;
+    font-size: 20px;
+    overflow-wrap: break-word;
+    font-weight: 400;
+    font-family: 'Times New Roman', Times, serif;
+}
+.pttLink{
+    color: #888;
+}
+.pttLink:visited {
+    color: #888;
+}
+.pttLink:hover {
+    color: #333;
+    background-color: #ccc;
+}
+.pttLink:link {
+    color: #aaa;
+}
+.pttMeta{
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 0 5ex;
+    min-height: 1em;
+    line-height: 120%;
+}
+.pttAuthor{
+    padding: 0.5ex 0;
+    font-family: Inconsolata, serif;
+    flex-shrink: 20px;
+}
+.pttDate{
+    padding: 0.5ex 0;
+    min-width: 6ex;
+    margin: 0 0 0 5px;
+}
