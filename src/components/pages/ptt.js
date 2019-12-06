@@ -49,7 +49,7 @@ class Ptt extends React.Component {
             return <div className="pttBoard">
                 <h1>FAKE PTT</h1>
                 <ul>
-                    {this.state.item.map(i => {
+                    {this.state.item.map((i,n,arr) => {
                         let color = (num) => {
                             if (num > 20) {
                                 return 'yellow'
@@ -61,10 +61,10 @@ class Ptt extends React.Component {
                             color: color(i.push)
                         }
                         console.log(pushColor);
-
+                        let grey = arr.length - 3 === n ? 'greyBlock' : ''
                         return (
                             <li className="pttItem">
-
+                            <div className={grey}></div>
                                 <h3 className="pttTitle">
                                     <div className="pttPush" style={{ color: color(i.push) }}>{i.push}</div>
                                     <a className="pttLink" href={i.link}>{i.title}</a>
