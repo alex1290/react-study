@@ -38,11 +38,12 @@ app.get('/', function (req, res) {
         result.push(item)
       }
       res.send(result);
-      console.log(1);
+      console.log(result);
+      
     })
   }
-  // ptt()
-  res.send('hello world');
+  ptt()
+  // res.send('hello world');
   // setInterval(ptt, 1000);
 })
 
@@ -51,6 +52,6 @@ var server = app.listen(port, function () {
   var host = server.address().address
   var port = server.address().port
 
-  console.log("http://%s:%s", host, port)
+  console.log(host, port)
 
 })
