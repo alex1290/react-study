@@ -38,8 +38,6 @@ app.get('/', function (req, res) {
         result.push(item)
       }
       res.send(result);
-      console.log(result);
-      
     })
   }
   ptt()

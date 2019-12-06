@@ -8,7 +8,7 @@ class Ptt extends React.Component {
         filter: null
     }
 
-    DEBUG = true;
+    DEBUG = false;
 
     crawler() {
         const url = this.DEBUG
