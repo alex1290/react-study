@@ -3,6 +3,9 @@
     color: #888;
     text-align: left;
     font-family: serif;
+    max-width: 1200px;
+    margin: auto;
+    min-height: calc(100vh - 145px);
 }
 .greyBlock{
     height: 0.5ex;
@@ -14,9 +17,10 @@
 }
 .pttItem{
     position: relative;
-    margin: 1ex 0;
-    padding: 0.5ex 0;
+    margin: 0.75ex 0;
+    padding: 0.35ex 0;
     background-color: #111;
+    font-size: 20px;
 }
 .pttPush{
     width: 4ex;
@@ -25,10 +29,11 @@
     left: 0;
     top:0.5ex;
     text-align: right;
+    font-family: serif;
 }
 .pttTitle{
     padding: 0.5ex 0 0 0;
-    margin: 0 5ex;
+    margin: 0 6ex;
     font-size: 20px;
     overflow-wrap: break-word;
     font-weight: 400;
@@ -58,9 +63,11 @@
     padding: 0.5ex 0;
     font-family: Inconsolata, serif;
     flex-shrink: 20px;
+    color: #bbb;
 }
 .pttDate{
     padding: 0.5ex 0;
     min-width: 6ex;
     margin: 0 0 0 5px;
+    color: #bbb;
 }
