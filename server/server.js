@@ -21,7 +21,7 @@ const ptt = (res, url, board = 'moive') => {
   // request.cookie({name: 'over18',value: '1'})
   request({
     url,
-    method: 'POST'
+    method: 'GET'
   }, function (error, response, body) {
     if (error || !body) {
       return;

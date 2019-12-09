@@ -16,7 +16,7 @@ class Ptt extends React.Component {
     crawler(style, board, page, filter) {
         const url = this.DEBUG
             ? 'http://localhost:3001'
-            : 'ec2-18-176-44-139.ap-northeast-1.compute.amazonaws.com:3001/'
+            : 'http://ec2-18-176-44-139.ap-northeast-1.compute.amazonaws.com:3001/'
         fetch(url, {
             method: 'POST',
             headers: {
@@ -80,7 +80,7 @@ class Ptt extends React.Component {
                         }
                         if (i.title === 'greyBlock') {
                             return <div className={i.title} key={n}></div>
-                        } else if (i.title.indexOf('(本文已被刪除)') === -1) {
+                        } else if (i.title.indexOf('(本文已被刪除)') !== -1) {
                             return (
                                 <li className="pttItem" key={n}>
                                     <h3 className="pttTitle">
