@@ -11,7 +11,7 @@ class Ptt extends React.Component {
         filter: null
     }
 
-    DEBUG = true;
+    DEBUG = false;
 
     crawler(style, board, page, filter) {
         const url = this.DEBUG
@@ -57,9 +57,11 @@ class Ptt extends React.Component {
     }
     render() {
         const { error, item, isLoaded } = this.state;
-        if (error) {
-            return <div>{error}</div>
-        } else if (!isLoaded) {
+        // if (error) {
+        //     console.log(error);
+        //     return <div style={{ color: 'white' }} className="pttBoard">fail</div>
+        // } else
+         if (!isLoaded) {
             return <div style={{ color: 'white' }} className="pttBoard">Loading...</div>
         } else {
             return <div className="pttBoard">
