@@ -14,13 +14,14 @@ app.use(cors(corsOptions))
 
 // app.post('/test', function (req, res) {
 //   
-  
+
 // })
 
-const ptt = (res) => {
+const ptt = (res, url, board = 'moive') => {
+  // request.cookie({name: 'over18',value: '1'})
   request({
-    url: 'https://www.ptt.cc/bbs/movie/index.html',
-    method: 'GET'
+    url,
+    method: 'POST'
   }, function (error, response, body) {
     if (error || !body) {
       return;
@@ -31,9 +32,9 @@ const ptt = (res) => {
     const greyBlock = $(".r-list-sep")[0]
     const greyBlockNode = Math.floor([...greyBlock.parentNode.children].indexOf(greyBlock) / 2 - 1)
     for (let i = 0; i < table_tr.length; i++) {
-      if(greyBlockNode === i){
+      if (greyBlockNode === i) {
         result.push({
-          title:'greyBlock'
+          title: 'greyBlock'
         })
       }
       const table_td = table_tr.eq(i);
@@ -42,7 +43,7 @@ const ptt = (res) => {
       const author = table_td.find('.author').text();
       const date = table_td.find('.date').text();
       const link = title.indexOf('(本文已被刪除)') === -1
-        ? table_td.find('a').attr('href').replace('bbs','ptt')
+        ? table_td.find('a').attr('href').replace('bbs', 'ptt')
         : '';
       const item = { title, link, push, author, date }
       result.push(item)
@@ -53,14 +54,15 @@ const ptt = (res) => {
 
 app.post('/', function (req, res) {
   console.log(JSON.stringify(req.body));
-  ptt(res)
+  const url = 'https://www.ptt.cc/bbs/movie/index.html'
+  ptt(res, url)
 })
 
 var server = app.listen(port, function () {
 
   var host = server.address().address
   var port = server.address().port
-  
+
   console.log(host, port)
 
 })

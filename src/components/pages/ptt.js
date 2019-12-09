@@ -2,8 +2,9 @@ import React from 'react';
 import './ptt.css'
 class Ptt extends React.Component {
     state = {
-        board:null,
-        page:null,
+        style: null,
+        board: null,
+        page: null,
         error: null,
         item: null,
         isLoaded: false,
@@ -12,7 +13,7 @@ class Ptt extends React.Component {
 
     DEBUG = true;
 
-    crawler() {
+    crawler(style, board, page, filter) {
         const url = this.DEBUG
             ? 'http://localhost:3001'
             : 'ec2-18-176-44-139.ap-northeast-1.compute.amazonaws.com:3001/'
@@ -22,8 +23,10 @@ class Ptt extends React.Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                email: 'lovef1232e@hexschool.com',
-                password: '12345678'
+                style, 
+                board, 
+                page,
+                filter
             })
         })
             .then(res => res.json())
@@ -45,7 +48,8 @@ class Ptt extends React.Component {
 
     componentDidMount() {
         document.getElementsByClassName('container')[0].style.backgroundColor = '#000';
-        this.crawler()
+        const { style, board, page, filter } = this.state
+        this.crawler(style, board, page, filter)
     }
 
     componentWillUnmount() {
@@ -56,7 +60,7 @@ class Ptt extends React.Component {
         if (error) {
             return <div>{error}</div>
         } else if (!isLoaded) {
-            return <div style={{ color: 'white' }}>Loading...</div>
+            return <div style={{ color: 'white' }} className="pttBoard">Loading...</div>
         } else {
             return <div className="pttBoard">
                 <h1>FAKE PTT</h1>
@@ -76,6 +80,19 @@ class Ptt extends React.Component {
                         }
                         if (i.title === 'greyBlock') {
                             return <div className={i.title} key={n}></div>
+                        } else if (i.title.indexOf('(本文已被刪除)') === -1) {
+                            return (
+                                <li className="pttItem" key={n}>
+                                    <h3 className="pttTitle">
+                                        <div className="pttPush" style={{ color: color(i.push) }}>{i.push}</div>
+                                        {i.title}
+                                    </h3>
+                                    <div className="pttMeta">
+                                        <p className="pttAuthor">{i.author}</p>
+                                        <p className="pttDate">{i.date}</p>
+                                    </div>
+                                </li>
+                            )
                         } else {
                             return (
                                 <li className="pttItem" key={n}>
