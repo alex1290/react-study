@@ -1,5 +1,6 @@
 import React from 'react';
 import './ptt.css'
+import { type } from 'os';
 class Ptt extends React.Component {
     state = {
         style: null,
@@ -38,11 +39,9 @@ class Ptt extends React.Component {
                     });
                 },
                 (error) => {
-                    console.log(error);
-                    
                     this.setState({
                         isLoaded: true,
-                        error:'fail'
+                        error:error.toString()
                     });
                 }
             )
