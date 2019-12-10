@@ -38,6 +38,8 @@ class Ptt extends React.Component {
                     });
                 },
                 (error) => {
+                    console.log(error);
+                    
                     this.setState({
                         isLoaded: true,
                         error
@@ -57,11 +59,10 @@ class Ptt extends React.Component {
     }
     render() {
         const { error, item, isLoaded } = this.state;
-        // if (error) {
-        //     console.log(error);
-        //     return <div style={{ color: 'white' }} className="pttBoard">fail</div>
-        // } else
-         if (!isLoaded) {
+        if (error) {
+            console.log(error);
+            return <div style={{ color: 'white' }} className="pttBoard">fail</div>
+        } else if (!isLoaded) {
             return <div style={{ color: 'white' }} className="pttBoard">Loading...</div>
         } else {
             return <div className="pttBoard">
