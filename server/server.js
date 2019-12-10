@@ -17,11 +17,12 @@ app.use(cors(corsOptions))
 
 // })
 
-const ptt = (res, url, board = 'moive') => {
+const ptt = (res, url, board = 'sex') => {
   // request.cookie({name: 'over18',value: '1'})
   request({
     url,
-    method: 'GET'
+    method: 'GET',
+    headers: { name: 'over18', value: '1' }
   }, function (error, response, body) {
     if (error || !body) {
       return;
@@ -53,8 +54,10 @@ const ptt = (res, url, board = 'moive') => {
 }
 
 app.post('/', function (req, res) {
-  console.log(JSON.stringify(req.body));
-  const url = 'https://www.ptt.cc/bbs/movie/index.html'
+  const { style, board, page, filter } = JSON.parse(JSON.stringify(req.body))
+  console.log(style, board, page, filter);
+
+  const url = 'https://www.ptt.cc/bbs/' + board + '/' + page + '.html'
   ptt(res, url)
 })
 

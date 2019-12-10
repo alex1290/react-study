@@ -12,7 +12,7 @@ class Ptt extends React.Component {
         filter: null
     }
 
-    DEBUG = false;
+    DEBUG = true;
 
     crawler(style, board, page, filter) {
         const url = this.DEBUG
@@ -24,13 +24,17 @@ class Ptt extends React.Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                style, 
-                board, 
+                style,
+                board,
                 page,
                 filter
             })
         })
-            .then(res => res.json())
+            .then(res => {
+                console.log(res);
+
+                return res.json()
+            })
             .then(
                 (success) => {
                     this.setState({
@@ -41,30 +45,71 @@ class Ptt extends React.Component {
                 (error) => {
                     this.setState({
                         isLoaded: true,
-                        error:error.toString()
+                        error: error.toString()
                     });
                 }
             )
     }
 
-    componentDidMount() {
-        document.getElementsByClassName('container')[0].style.backgroundColor = '#000';
-        const { style, board, page, filter } = this.state
-        this.crawler(style, board, page, filter)
+    toIndex() {
+        this.setState({ board: null })
     }
 
+    chooseBoard() {
+        let board = document.getElementsByClassName('chooseBoardInput')[0].value
+        this.setState({
+            board: board,
+            page: 'index',
+            isLoaded: false
+        })
+        const { style, filter } = this.state
+        this.crawler(style, board, 'index', filter)
+        board = ''
+    }
+    componentDidMount() {
+        document.getElementsByClassName('container')[0].style.backgroundColor = '#000';
+        // const { style, board, page, filter } = this.state
+        // this.crawler(style, board, page, filter)
+    }
+
+    // componentDidUpdate() {
+    //     const { style, board, page, filter } = this.state
+    //     this.crawler(style, board, page, filter)
+    // }
     componentWillUnmount() {
         document.getElementsByClassName('container')[0].style.backgroundColor = '#FFF';
     }
     render() {
-        const { error, item, isLoaded } = this.state;
+        const { board, error, item, isLoaded } = this.state;
+        if (!board) {
+            return (
+                <div className="pttBoard">
+                    <div className="chooseBoard">
+                        <h2 className="chooseBoardTitle">選擇看板</h2>
+                        <div>
+                            <input className="chooseBoardInput" type="text" />
+                            <div
+                                className="chooseBoardBtn"
+                                onClick={() => this.chooseBoard()}
+                            >送出</div>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
         if (error) {
             return <div style={{ color: 'white' }} className="pttBoard">{error}</div>
         } else if (!isLoaded) {
             return <div style={{ color: 'white' }} className="pttBoard">Loading...</div>
         } else {
             return <div className="pttBoard">
-                <h1>FAKE PTT</h1>
+                <h1>FAKE PTT > 看板 {board}</h1>
+                <div className="pttBtnBox">
+                    <a
+                        className="toIndexBtn pttBtn"
+                        onClick={() => this.toIndex()}
+                    >回到看板列表</a>
+                </div>
                 <ul>
                     {item.map((i, n) => {
                         let color = (num) => {

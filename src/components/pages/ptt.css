@@ -7,6 +7,62 @@
     margin: auto;
     min-height: calc(100vh - 145px);
 }
+
+.chooseBoardTitle{
+    color: white;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+.chooseBoardInput{
+    font-size: 20px;
+    outline: none;
+    width: 150px;
+    line-height: 30px;
+}
+.chooseBoardBtn{
+    display: inline-block;
+    margin: 0 2ex;
+    padding: 0 2ex;
+    height: 100%;
+    line-height: 40px;
+    background-color: #333;
+    border: 1px solid #888;
+    color: white;
+}
+
+.chooseBoardBtn:hover{
+    cursor: pointer;
+    background-color: #888;
+    border-color: #fff;
+}
+
+
+.pttBtn.selected:hover {
+    border-color: #eee;
+}
+
+.pttBtn:not(.disabled):hover {
+    border-color: #eee;
+    background-color: #bbb;
+    color: #000;
+    z-index: 2;
+}
+.pttBtn.selected {
+    border-color: #ccc;
+    background-color: #bbb;
+    color: #000;
+    z-index: 2;
+}
+.pttBtn:link, .pttBtn:visited {
+    color: #ddd;
+}
+.pttBtn {
+    margin: 0;
+    height: 100%;
+    line-height: 40px;
+}
+
+
 .greyBlock{
     height: 0.5ex;
     width: 100%;
