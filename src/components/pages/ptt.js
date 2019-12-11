@@ -13,7 +13,7 @@ class Ptt extends React.Component {
         filter: null
     }
 
-    DEBUG = true;
+    DEBUG = false;
 
     crawler() {
         const { style, board, page, filter, url } = this.state
