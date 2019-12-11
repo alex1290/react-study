@@ -8,33 +8,57 @@ const corsOptions = {
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
 };
 const app = express();
-const port = 3001;
 app.use(bodyParser.json());
+//cors問題
 app.use(cors(corsOptions))
 
-// app.post('/test', function (req, res) {
-//   
 
-// })
+const port = 3001;
 
-const ptt = (res, url, board = 'sex') => {
-  // request.cookie({name: 'over18',value: '1'})
+
+const ptt = (res, url, board) => {
+  //瀏覽18禁加入cookie
+  const cookie = request.cookie('over18=1; expires=' + new Date(new Date().getTime() + 86409000))
   request({
     url,
     method: 'GET',
-    headers: { name: 'over18', value: '1' }
+    headers: {
+      'Cookie': cookie
+    }
   }, function (error, response, body) {
+    //檢測有無錯誤或無內容
     if (error || !body) {
       return;
     }
     const $ = cheerio.load(body);
-    const result = [];
+
+    //抓取是否有錯誤訊息
+    const errormsg = $(".bbs-screen.bbs-content").text()
+    if (errormsg) {
+      res.send({ error: errormsg })
+      return
+    }
+
+    //抓取頁碼
+    const page = [];
+    const pageBtn = $(".btn.wide")
+    for (let i = 0; i < pageBtn.length; i++) {
+      const btn = pageBtn.eq(i);
+      const link = !btn.hasClass('disabled') ? 'ptt' + btn.attr('href') : ''
+      const text = btn.text()
+      page.push({ link, text })
+    }
+
+    //抓取標題&作者...等等
+    const list = [];
     const table_tr = $(".r-ent");
+    //抓取公告上方灰色方塊
     const greyBlock = $(".r-list-sep")[0]
-    const greyBlockNode = Math.floor([...greyBlock.parentNode.children].indexOf(greyBlock) / 2 - 1)
+    const greyBlockNode = greyBlock ? Math.floor([...greyBlock.parentNode.children].indexOf(greyBlock) / 2 - 1) : ''
+
     for (let i = 0; i < table_tr.length; i++) {
       if (greyBlockNode === i) {
-        result.push({
+        list.push({
           title: 'greyBlock'
         })
       }
@@ -44,21 +68,24 @@ const ptt = (res, url, board = 'sex') => {
       const author = table_td.find('.author').text();
       const date = table_td.find('.date').text();
       const link = title.indexOf('(本文已被刪除)') === -1
-        ? table_td.find('a').attr('href').replace('bbs', 'ptt')
+        ? 'ptt' + table_td.find('a').attr('href')
         : '';
       const item = { title, link, push, author, date }
-      result.push(item)
+      list.push(item)
     }
-    res.send(result);
+    res.send({ list, page });
   })
 }
 
 app.post('/', function (req, res) {
   const { style, board, page, filter } = JSON.parse(JSON.stringify(req.body))
   console.log(style, board, page, filter);
-
-  const url = 'https://www.ptt.cc/bbs/' + board + '/' + page + '.html'
-  ptt(res, url)
+  if (board === '') {
+    res.send({ error: 'Please type board name' })
+    return
+  }
+  const url = 'https://www.ptt.cc/bbs/' + board + '/' + page + '.html';
+  ptt(res, url);
 })
 
 var server = app.listen(port, function () {

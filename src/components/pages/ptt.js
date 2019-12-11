@@ -14,7 +14,8 @@ class Ptt extends React.Component {
 
     DEBUG = true;
 
-    crawler(style, board, page, filter) {
+    crawler() {
+        const { style, board, page, filter } = this.state
         const url = this.DEBUG
             ? 'http://localhost:3001'
             : 'http://ec2-18-176-44-139.ap-northeast-1.compute.amazonaws.com:3001/'
@@ -31,12 +32,19 @@ class Ptt extends React.Component {
             })
         })
             .then(res => {
-                console.log(res);
-
                 return res.json()
             })
             .then(
                 (success) => {
+                    if (success.error) {
+                        this.setState({
+                            isLoaded: false,
+                            board: null,
+                            page: null,
+                            item: success
+                        });
+                        return
+                    }
                     this.setState({
                         isLoaded: true,
                         item: success
@@ -45,6 +53,8 @@ class Ptt extends React.Component {
                 (error) => {
                     this.setState({
                         isLoaded: true,
+                        board: null,
+                        page: null,
                         error: error.toString()
                     });
                 }
@@ -52,66 +62,137 @@ class Ptt extends React.Component {
     }
 
     toIndex() {
-        this.setState({ board: null })
+        this.setState({
+            board: null,
+            page: null,
+            index: null
+        })
+        window.location.href = window.location.origin + '/ptt'
+    }
+
+    changePage(e) {
+        // e.preventDefault()
+        // window.location.href = e.target.href
+    }
+
+    pttPromise(setState, next = () => { }) {
+        let promise = new Promise((res, rej) => {
+            setState();
+            res();
+        })
+            .then(
+                res => {
+                    this.crawler()
+                    next();
+                }
+            )
+        return promise
     }
 
     chooseBoard() {
         let board = document.getElementsByClassName('chooseBoardInput')[0].value
-        this.setState({
-            board: board,
-            page: 'index',
-            isLoaded: false
-        })
-        const { style, filter } = this.state
-        this.crawler(style, board, 'index', filter)
-        board = ''
-    }
-    componentDidMount() {
-        document.getElementsByClassName('container')[0].style.backgroundColor = '#000';
-        // const { style, board, page, filter } = this.state
-        // this.crawler(style, board, page, filter)
+        let setState = () => {
+            this.setState({
+                board,
+                page: 'index',
+                isLoaded: false,
+                error: null,
+                item: null
+            })
+        }
+        let next = () => board = '';
+        this.pttPromise(
+            setState,
+            next
+        )
     }
 
-    // componentDidUpdate() {
-    //     const { style, board, page, filter } = this.state
-    //     this.crawler(style, board, page, filter)
-    // }
+    componentDidMount() {
+        document.getElementsByClassName('container')[0].style.backgroundColor = '#000';
+        const url = window.location
+        const str = url.toString().split('/')
+        if (str[str.length - 1] !== 'ptt') {
+            const board = str[str.length - 2]
+            const page = str[str.length - 1].replace('.html', '')
+            let setState = () => {
+                this.setState({
+                    board,
+                    page,
+                    isLoaded: false,
+                    item: null
+                })
+            }
+            this.pttPromise(setState)
+        }
+    }
+
     componentWillUnmount() {
         document.getElementsByClassName('container')[0].style.backgroundColor = '#FFF';
     }
+
     render() {
         const { board, error, item, isLoaded } = this.state;
-        if (!board) {
+        let msg = (item && item.error) ? item.error : ''
+        console.log(msg);
+
+        if (!board || error || msg !== '') {
             return (
                 <div className="pttBoard">
+                    <h1>FAKE PTT</h1>
                     <div className="chooseBoard">
-                        <h2 className="chooseBoardTitle">選擇看板</h2>
+                        <h2 className="chooseBoardTitle">輸入看板</h2>
                         <div>
                             <input className="chooseBoardInput" type="text" />
                             <div
-                                className="chooseBoardBtn"
+                                className="chooseBoardBtn pttBtn"
                                 onClick={() => this.chooseBoard()}
                             >送出</div>
                         </div>
+                        <div className="chooseBoardMsg">{error}{msg}</div>
                     </div>
                 </div>
             )
-        }
-        if (error) {
-            return <div style={{ color: 'white' }} className="pttBoard">{error}</div>
         } else if (!isLoaded) {
             return <div style={{ color: 'white' }} className="pttBoard">Loading...</div>
         } else {
             return <div className="pttBoard">
                 <h1>FAKE PTT > 看板 {board}</h1>
                 <div className="pttBtnBox">
-                    <a
-                        className="toIndexBtn pttBtn"
-                        onClick={() => this.toIndex()}
-                    >回到看板列表</a>
+                    <div>
+                        <a
+                            className="toIndexBtn pttBtn"
+                            onClick={() => this.toIndex()}
+                        >回到看板列表</a>
+                    </div>
+                    <div className="pageBtnBox">
+                        {item.page.map((i, n) => {
+                            let link = `${window.location.origin}/${i.link}`
+                            if (i.link === '') {
+                                return (
+                                    <a
+                                        className='pttBtn disabled'
+                                        key={n}
+                                    >
+                                        {i.text}
+                                    </a>
+                                )
+                            } else {
+                                return (
+                                    <a
+                                        href={link}
+                                        className='pttBtn'
+                                        key={n}
+                                        onClick={(e) => this.changePage(e)}
+                                    >
+                                        {i.text}
+                                    </a>
+                                )
+                            }
+                        })}
+                    </div>
                 </div>
                 <ul>
-                    {item.map((i, n) => {
+                    {item.list.map((i, n) => {
                         let color = (num) => {
                             if (num[0] === 'X') {
                                 return '#666'
@@ -157,9 +238,9 @@ class Ptt extends React.Component {
                     )}
                 </ul>
 
-            </div>
+            </div >
         }
     }
 }
 
-export default Ptt
+export default Ptt;
