@@ -85,7 +85,7 @@ class Weather extends React.Component {
                 (error) => {
                     this.setState({
                         isLoaded: true,
-                        error
+                        error:error.toString()
                     });
                 }
             )

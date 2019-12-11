@@ -5,7 +5,7 @@
     font-family: serif;
     max-width: 1200px;
     margin: auto;
-    min-height: calc(100vh - 145px);
+    min-height: calc(100vh - 125px);
 }
 
 .chooseBoardTitle{
@@ -107,6 +107,7 @@
 }
 .pttLink{
     color: #888;
+    cursor: pointer;
 }
 .pttLink:visited {
     color: #888;
