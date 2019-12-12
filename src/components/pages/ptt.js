@@ -296,7 +296,7 @@ class Ptt extends React.Component {
             const contentEnd = content.mainContent.indexOf('--')
             return (
                 <div className="pttBoard">
-                    <h1>FAKE PTT > 看板 {board} 施工中</h1>
+                    <h1>FAKE PTT > 看板 {board}</h1>
                     <div>
                         <a
                             className="toIndexBtn pttBtn"
@@ -352,7 +352,7 @@ class Ptt extends React.Component {
                                     <div className="push" key={n}>
                                         <span className="pushTag"
                                             style={{
-                                                color:tagColor
+                                                color: tagColor
                                             }}
                                         >{i.pushTag}</span>
                                         <span className="pushUserId">{i.pushUserId}</span>
