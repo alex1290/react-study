@@ -20,7 +20,7 @@ class Ptt extends React.Component {
         history: []
     }
 
-    DEBUG = false;
+    DEBUG = true;
 
     crawler() {
         const { style, board, page, filter, url } = this.state
@@ -101,6 +101,18 @@ class Ptt extends React.Component {
             style: null,
             history: this.saveHistory()
         })
+    }
+
+    toList() {
+        let setState = () => {
+            this.setState({
+                style: "board",
+                isLoaded: false,
+                url: null,
+                history: this.saveHistory()
+            })
+        }
+        this.pttPromise(setState)
     }
 
     changePage(link) {
@@ -280,6 +292,8 @@ class Ptt extends React.Component {
                     </ul>
                 </div>)
         } else if (style === 'article') {
+            const { authorInfo, push, content } = this.state.item
+            const contentEnd = content.mainContent.indexOf('--')
             return (
                 <div className="pttBoard">
                     <h1>FAKE PTT > 看板 {board} 施工中</h1>
@@ -288,6 +302,66 @@ class Ptt extends React.Component {
                             className="toIndexBtn pttBtn"
                             onClick={() => this.toIndex()}
                         >回到看板列表</a>
+                        <a
+                            className="toListBtn pttBtn"
+                            onClick={() => this.toList()}
+                        >回到文章列表</a>
+                    </div>
+                    <div className="pttArticle">
+                        <div className="articleAuth">
+                            {authorInfo.map((i, n) => {
+                                let infoClass = i.tag === '看板' ? "articleAuthBoard" : "articleAuthInfo"
+                                return (
+                                    <div key={n} className={infoClass}>
+                                        <div className="articleAuthTag">
+                                            {i.tag}
+                                        </div>
+                                        <div className="articleAuthValue">
+                                            {i.value}
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                        <div className="articleContent">
+                            <p>
+                                {content.mainContent
+                                    .filter((i, n) => n < contentEnd)
+                                    .map((i, n) => {
+                                        return <p key={n}>{i}</p>
+                                    })}
+                                {console.log(contentEnd)
+                                }
+                                <p>   </p>
+                                <p>--</p>
+                            </p>
+                            <div className="authIp">
+                                {content.authIp}
+                            </div>
+                            <div className="articleUrlText">
+                                {content.articleUrlText.replace(content.articleUrl + "\n", "")}
+                                <a
+                                    className="articleUrl"
+                                    href={content.articleUrl}>{content.articleUrl}</a>
+                            </div>
+                        </div>
+                        <div className="articlePushBox">
+                            {push.map((i, n) => {
+                                let tagColor = i.pushTag.indexOf('推') !== -1 ? '#fff' : '#f66'
+                                return (
+                                    <div className="push" key={n}>
+                                        <span className="pushTag"
+                                            style={{
+                                                color:tagColor
+                                            }}
+                                        >{i.pushTag}</span>
+                                        <span className="pushUserId">{i.pushUserId}</span>
+                                        <span className="pushContent">{i.pushContent}</span>
+                                        <span className="pushTime">{i.pushTime}</span>
+                                    </div>
+                                )
+                            })}
+                        </div>
                     </div>
                 </div>
             )
