@@ -1,16 +1,23 @@
 import React from 'react';
 import './ptt.css'
 
+window.onpopstate = function (e) {
+    e.preventDefault()
+    console.log(e);
+
+}
+
 class Ptt extends React.Component {
     state = {
         style: null,
         board: null,
         page: null,
-        error: null,
-        item: null,
         url: null,
+        filter: null,
+        item: null,
         isLoaded: false,
-        filter: null
+        error: null,
+        history: []
     }
 
     DEBUG = false;
@@ -78,6 +85,12 @@ class Ptt extends React.Component {
         return promise
     }
 
+    saveHistory() {
+        const { style, board, page, filter, url, history } = this.state;
+        const newHistory = [...history, { style, board, page, filter, url }]
+        return newHistory
+    }
+
     toIndex() {
         this.setState({
             board: null,
@@ -85,7 +98,8 @@ class Ptt extends React.Component {
             index: null,
             item: null,
             url: null,
-            style: null
+            style: null,
+            history: this.saveHistory()
         })
     }
 
@@ -98,7 +112,8 @@ class Ptt extends React.Component {
                 board,
                 page,
                 isLoaded: false,
-                item: null
+                item: null,
+                history: this.saveHistory()
             })
         }
         this.pttPromise(setState)
@@ -112,7 +127,8 @@ class Ptt extends React.Component {
                 style: 'article',
                 url,
                 isLoaded: false,
-                item: null
+                item: null,
+                history: this.saveHistory()
             })
         }
         this.pttPromise(setState)
@@ -122,13 +138,14 @@ class Ptt extends React.Component {
         let board = document.getElementsByClassName('chooseBoardInput')[0].value
         let setState = () => {
             this.setState({
+                style: 'board',
                 board,
                 page: 'index',
                 isLoaded: false,
                 error: null,
                 item: null,
                 url: null,
-                style: 'board'
+                history: this.saveHistory()
             })
         }
         let next = () => board = '';
@@ -140,6 +157,21 @@ class Ptt extends React.Component {
 
     componentDidMount() {
         document.getElementsByClassName('container')[0].style.backgroundColor = '#000';
+    }
+
+    componentDidUpdate() {
+        const { board, url, page, isLoaded, style } = this.state;
+        if (isLoaded) {
+            console.log(this.state);
+        }
+        let obj = {}
+        obj[board] = page
+        let dir = board
+            ? url
+                ? "/" + board + "/" + url
+                : "/" + board + "/" + page
+            : ''
+        window.history.replaceState(obj, "yaa", "/ptt" + dir)
     }
 
     componentWillUnmount() {
@@ -248,7 +280,17 @@ class Ptt extends React.Component {
                     </ul>
                 </div>)
         } else if (style === 'article') {
-            return <h1>hi</h1>
+            return (
+                <div className="pttBoard">
+                    <h1>FAKE PTT > 看板 {board} 施工中</h1>
+                    <div>
+                        <a
+                            className="toIndexBtn pttBtn"
+                            onClick={() => this.toIndex()}
+                        >回到看板列表</a>
+                    </div>
+                </div>
+            )
         }
     }
 }

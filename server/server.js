@@ -79,7 +79,7 @@ const ptt = (res, url, style) => {
       }
       res.send({ list, page });
     } else if (style === 'article') {
-      res.send({ error: sreenText })
+      res.send({sreenText})
 
 
     }
