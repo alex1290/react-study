@@ -2,7 +2,7 @@
 
 ## 展示網址
 
-[展示網址]](http://di7n2dyavxp1i.cloudfront.net/)
+[展示網址](http://di7n2dyavxp1i.cloudfront.net/)
 
 ## 前言
 需要了解:
