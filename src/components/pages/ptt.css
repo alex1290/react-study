@@ -165,6 +165,9 @@
     position: relative;
     margin:20px 0;
 }
+.articleContent span{
+    color: #bbb;
+}
 .articleAuthBoard{
     position: absolute;
     top:0;

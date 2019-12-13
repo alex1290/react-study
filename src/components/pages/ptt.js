@@ -188,10 +188,6 @@ class Ptt extends React.Component {
     }
 
     render() {
-        // if (this.DEBUG) {
-        //     if (t.toString().indexOf('/ptt/bbs/Test/M.1203456601.A.38F.html') === -1)
-        //         window.location.href = window.location.origin + '/ptt/bbs/Test/M.1203456601.A.38F.html'
-        // }
         const { board, error, item, isLoaded, style } = this.state;
         let msg = (item && item.error) ? item.error : ''
         if (!board || error || msg !== '') {
@@ -322,7 +318,6 @@ class Ptt extends React.Component {
                         </div>
                         <div className="articleContent">
                             <p>
-                                {/* color #BBB */}
                                 {content.mainContent
                                     .filter((i, n) => n < contentEnd)
                                     .map((i, n) => {
