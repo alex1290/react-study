@@ -55,8 +55,7 @@ const ptt = (res, url, style) => {
       const list = [];
       const tableTr = $(".r-ent");
       //抓取公告上方灰色方塊
-      const greyBlock = $(".r-list-sep")[0]
-      const greyBlockNode = greyBlock ? Math.floor([...greyBlock.parentNode.children].indexOf(greyBlock) / 2 - 1) : ''
+      const greyBlockNode = $(".r-list-sep").index() - 1
 
       for (let i = 0; i < tableTr.length; i++) {
         if (greyBlockNode === i) {
@@ -93,15 +92,15 @@ const ptt = (res, url, style) => {
       const pushTr = $(".push")
       for (let i = 0; i < pushTr.length; i++) {
         const pushTd = pushTr.eq(i)
+        const pushRe = pushTd.text()
         const pushTag = pushTd.find(".push-tag").text()
         const pushUserId = pushTd.find(".push-userid").text()
         const pushContent = pushTd.find(".push-content").text()
         const pushTime = pushTd.find(".push-ipdatetime").text()
-        push.push({ pushTag, pushUserId, pushContent, pushTime })
+        push.push({ pushTag, pushUserId, pushContent, pushTime, pushRe })
       }
 
       //內文
-
 
       const f2 = $(".f2")
       const authIp = f2.eq(0).text()
@@ -109,14 +108,14 @@ const ptt = (res, url, style) => {
       const articleUrl = f2.eq(1).find("a").text()
       const main = $("#main-content")
       const mainContent = main.eq(0).text().toString().split("\n")
-        .filter((i, n, arr) => n !== 0 && i !== '')
-      console.log(typeof mainContent);
-      
+        .filter((i, n, arr) => n !== 0)
+
       const content = { mainContent, authIp, articleUrlText, articleUrl }
 
-
-      const item = { authorInfo, push, content }
-      console.log(item);
+      //推文更新
+      const polling = $("#article-polling")
+      
+      const item = { authorInfo, push, content, polling:"123" }
 
       res.send(item)
 

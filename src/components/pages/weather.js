@@ -10,7 +10,6 @@ class Card extends React.Component {
     render() {
         let { item } = this.props;
         let { time } = this.state.data[0]
-        console.log(this.state)
         return (
             <li className="dataItem">
                 <select name="time" id="time">

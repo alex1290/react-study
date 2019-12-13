@@ -1,11 +1,11 @@
 import React from 'react';
 import './ptt.css'
 
-window.onpopstate = function (e) {
-    e.preventDefault()
-    console.log(e);
+// window.onpopstate = function (e) {
+//     e.preventDefault()
+//     console.log(e);
 
-}
+// }
 
 class Ptt extends React.Component {
     state = {
@@ -173,9 +173,6 @@ class Ptt extends React.Component {
 
     componentDidUpdate() {
         const { board, url, page, isLoaded, style } = this.state;
-        if (isLoaded) {
-            console.log(this.state);
-        }
         let obj = {}
         obj[board] = page
         let dir = board
@@ -292,7 +289,7 @@ class Ptt extends React.Component {
                     </ul>
                 </div>)
         } else if (style === 'article') {
-            const { authorInfo, push, content } = this.state.item
+            const { authorInfo, push, content, polling } = this.state.item
             const contentEnd = content.mainContent.indexOf('--')
             return (
                 <div className="pttBoard">
@@ -325,14 +322,13 @@ class Ptt extends React.Component {
                         </div>
                         <div className="articleContent">
                             <p>
+                                {/* color #BBB */}
                                 {content.mainContent
                                     .filter((i, n) => n < contentEnd)
                                     .map((i, n) => {
-                                        return <p key={n}>{i}</p>
+                                        return <span key={n}>{i}<br></br></span>
                                     })}
-                                {console.log(contentEnd)
-                                }
-                                <p>   </p>
+                                <br />
                                 <p>--</p>
                             </p>
                             <div className="authIp">
@@ -362,6 +358,7 @@ class Ptt extends React.Component {
                                 )
                             })}
                         </div>
+                        <div className="articlePolling">推文自動更新已關閉</div>
                     </div>
                 </div>
             )
