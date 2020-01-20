@@ -125,8 +125,9 @@ const ptt = (res, url, style) => {
   })
 }
 
-app.get('/get', (req, res) => {
-  switch (req) {
+app.get('/get:num', (req, res) => {
+  const num = req.param.num
+  switch (num) {
     case (1):
       res.send("1 OK")
       break
