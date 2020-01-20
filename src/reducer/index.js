@@ -1,7 +1,6 @@
 import { combineReducers } from "redux";
 import * as actionTypes from "../action/type";
 import dataState from '../constants/model';
-import { stat } from "fs";
 
 function LtoA(list) {
     let init = [...list]

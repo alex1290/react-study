@@ -114,8 +114,8 @@ const ptt = (res, url, style) => {
 
       //推文更新
       const polling = $("#article-polling")
-      
-      const item = { authorInfo, push, content, polling:"123" }
+
+      const item = { authorInfo, push, content, polling: "123" }
 
       res.send(item)
 
@@ -124,6 +124,19 @@ const ptt = (res, url, style) => {
 
   })
 }
+
+app.get('/get', (req, res) => {
+  switch (req) {
+    case (1):
+      res.send("1 OK")
+      break
+    case (2):
+      res.send("2 OK")
+      break
+    default:
+      res.send("No Requset")
+  }
+})
 
 app.post('/', function (req, res) {
   const { style, board, page, filter, url } = JSON.parse(JSON.stringify(req.body))
