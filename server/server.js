@@ -128,10 +128,10 @@ const ptt = (res, url, style) => {
 app.get('/get:num', (req, res) => {
   const num = req.param.num
   switch (num) {
-    case (1):
+    case ("1"):
       res.send("1 OK")
       break
-    case (2):
+    case ("2"):
       res.send("2 OK")
       break
     default:
