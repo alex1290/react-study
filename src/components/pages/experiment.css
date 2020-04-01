@@ -2,6 +2,7 @@
     width: 200px;
     height: 100px;
     background-color: #fa0;
+    position: absolute;
     cursor: pointer;
 }
 .todo{
@@ -75,4 +76,20 @@
 .todoListDel:hover{
     background-color: #fff;
     color: #f00;
+}
+.testBox{
+    margin: 50px 0;
+    width: 100%;
+    height: 600px;
+    position: relative;
+    border: 1px solid #000;
+}
+
+.testBtn{
+    width: 100px;
+    height: 30px;
+    margin: auto;
+    background-color: #fa0;
+    cursor: pointer;
+    touch-action: none;
 }

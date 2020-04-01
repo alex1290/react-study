@@ -20,7 +20,7 @@ class Ptt extends React.Component {
         history: []
     }
 
-    DEBUG = false;
+    DEBUG = true;
 
     crawler() {
         const { style, board, page, filter, url } = this.state

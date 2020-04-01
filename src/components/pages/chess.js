@@ -1,13 +1,15 @@
 import React from 'react';
 import './chess.css';
 import { connect } from "react-redux";
-import * as action from '../../action/index'
+import * as action from '../../action/index';
+import webSocket from 'socket.io-client';
 class Game extends React.Component {
     state = {
         selected: null,
         nowStep: 0,
         upgrade: null,
-        moved: []
+        moved: [],
+        ws:webSocket('http://localhost:3001')
     }
 
     selectPiece = (position) => {
@@ -353,7 +355,6 @@ class Game extends React.Component {
         return null
     }
 
-
     componentDidUpdate() {
         //滾卷軸
         let stepBoard = document.getElementsByClassName('stepBoard')[0]
@@ -361,12 +362,11 @@ class Game extends React.Component {
         let color = this.state.nowStep % 2 === 0 ? 'B' : 'W'
         let el = [...document.getElementsByClassName('square')]
         el.forEach(i => {
-            
-            i.style.cursor = 
-            (i.innerHTML && i.innerHTML[0] === color) || i.style.borderColor === 'rgb(255, 0, 0)'
-            ? 'pointer'
-            : 'default'
-            
+            i.style.cursor =
+                (i.innerHTML && i.innerHTML[0] === color) || i.style.borderColor === 'rgb(255, 0, 0)'
+                    ? 'pointer'
+                    : 'default'
+
         })
     }
 

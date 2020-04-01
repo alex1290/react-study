@@ -78,30 +78,122 @@ class Todo extends React.Component {
     }
 }
 
+class TestBtn extends React.Component {
 
+    state = {
+        x: 0,
+        y: 0
+    }
+
+    onTouchStart(e) {
+        const event = e.touches[0]
+        console.log(event);
+
+        const { add } = this.props
+        const x = event.clientX
+        const y = event.clientY
+        this.setState({ x, y })
+        add({ x, y })
+    }
+
+    onTouchMove(e) {
+        const event = e.touches[0]
+        console.log(event);
+
+        const { move } = this.props
+        const x = event.clientX
+        const y = event.clientY
+        this.setState({ x, y })
+        move({ x, y })
+    }
+
+    render() {
+        return <div className="testBtn"
+            onTouchStart={e => this.onTouchStart(e)}
+            onTouchMove={e => this.onTouchMove(e)}
+        >dragTest</div>
+    }
+}
 
 class Block extends React.Component {
+    state = {
+        offsetLeft: 0,
+        offsetTop: 0
+    }
+
+    componentDidMount() {
+        const testBox = document.getElementsByClassName("testBox")[0]
+        this.setState({
+            offsetLeft: testBox.offsetLeft,
+            offsetTop: testBox.offsetTop,
+            width: testBox.offsetWidth,
+            height: testBox.offsetHeight,
+        })
+    }
+
     render() {
-        const { isOn, toggle } = this.props;
-        let color;
-        isOn ? color = "#fa0" : color = "#0f0"
-        return <div className="block" style={{ backgroundColor: color }} onClick={toggle}></div>
+        const { index, block } = this.props;
+        const { offsetLeft, offsetTop, width, height } = this.state
+        // const left = block.x - testBox.offsetLeft
+        let style = {
+            top: (block.y - offsetTop) / height * 100 + "%",
+            left: (block.x - offsetLeft) / width * 100 + "%"
+        }
+
+        return <div className="block" style={style}>{index}</div>
     }
 }
 
 class Experiment extends React.Component {
 
     state = {
-        isOn: false
+        isOn: false,
+        block: [{
+            index: 0,
+            x: 25,
+            y: 190
+        }],
+        isdragging: null
     }
+
+    add({ x, y }) {
+        const { block } = this.state
+        const index = block.length
+        block.push({
+            index,
+            x,
+            y
+        })
+        console.log(block);
+
+        this.setState({
+            block,
+            isdragging: index
+        })
+    }
+
+    move({ x, y }) {
+        const { block, isdragging } = this.state
+        let newBlock = JSON.parse(JSON.stringify(block))
+        newBlock[isdragging].x = x
+        newBlock[isdragging].y = y
+        this.setState({
+            block: newBlock
+        })
+    }
+
 
     toggle() { this.setState({ isOn: !this.state.isOn }); }
     render() {
+        const { block, isdragging } = this.state
         const { todoState, dispatch } = this.props;
         return (
             <div>
                 <h1>Experiment</h1>
-                <Block isOn={this.state.isOn} toggle={() => this.toggle()} />
+                <div className="testBox">
+                    {block.map((i, n) => <Block block={i} key={n} index={n} isdragging={isdragging} />)}
+                    <TestBtn add={(e) => this.add(e)} move={(e) => this.move(e)} />
+                </div>
                 <h2>Todo List</h2>
                 <Todo todo={todoState} dispatch={dispatch} />
             </div>
