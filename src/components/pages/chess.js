@@ -9,7 +9,7 @@ class Game extends React.Component {
         nowStep: 0,
         upgrade: null,
         moved: [],
-        ws:webSocket('http://localhost:3001')
+        ws: null
     }
 
     selectPiece = (position) => {
@@ -355,6 +355,13 @@ class Game extends React.Component {
         return null
     }
 
+    initSocket = () => {
+        const { ws } = this.state
+        ws.on('getMessage', message => {
+            console.log(message)
+        })
+    }
+
     componentDidUpdate() {
         //滾卷軸
         let stepBoard = document.getElementsByClassName('stepBoard')[0]
@@ -366,12 +373,17 @@ class Game extends React.Component {
                 (i.innerHTML && i.innerHTML[0] === color) || i.style.borderColor === 'rgb(255, 0, 0)'
                     ? 'pointer'
                     : 'default'
-
         })
+    }
+
+    componentDidMount() {
+        const ws = new webSocket('http://localhost:3001');
+        this.setState({ ws })
     }
 
     componentWillUnmount() {
         this.props.dispatch(action.resetChess());
+        this.setState({ ws: null })
     }
 
     render() {
